@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Windows Desktop
+# Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Physics and Graphics Engine", "Physics and Graphics Engine\Physics and Graphics Engine.vcxproj", "{AF60EA90-0C7E-4C69-B77C-7F0BE9219CF5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Basic GLUT Setup", "Basic GLUT Setup\Basic GLUT Setup.vcxproj", "{8C949DE3-42B1-4B98-ADDD-A64E384AC8F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AF60EA90-0C7E-4C69-B77C-7F0BE9219CF5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{AF60EA90-0C7E-4C69-B77C-7F0BE9219CF5}.Debug|Win32.Build.0 = Debug|Win32
-		{AF60EA90-0C7E-4C69-B77C-7F0BE9219CF5}.Release|Win32.ActiveCfg = Release|Win32
-		{AF60EA90-0C7E-4C69-B77C-7F0BE9219CF5}.Release|Win32.Build.0 = Release|Win32
+		{8C949DE3-42B1-4B98-ADDD-A64E384AC8F6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8C949DE3-42B1-4B98-ADDD-A64E384AC8F6}.Debug|Win32.Build.0 = Debug|Win32
+		{8C949DE3-42B1-4B98-ADDD-A64E384AC8F6}.Release|Win32.ActiveCfg = Release|Win32
+		{8C949DE3-42B1-4B98-ADDD-A64E384AC8F6}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
