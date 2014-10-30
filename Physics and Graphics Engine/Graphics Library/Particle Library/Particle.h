@@ -12,7 +12,7 @@
 #ifndef _PARTICLE_H_
 #define _PARTICLE_H_
 
-#include "MathLibrary.h"
+#include "..\..\Math Library\MathLibrary.h"
 #include <iostream>
 
 namespace GraphicsEngine

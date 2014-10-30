@@ -95,13 +95,20 @@ OpenGLProgram * AssetManager::getProgram(std::string name)
 
 bool AssetManager::loadFile(std::string fileName, std::string fileExtension)
 {
-    if(fileExtension == ".obj")
-        return loadObj(fileName, fileExtension);
-    else if(fileExtension == ".dae")
-        return loadCollada(fileName, fileExtension);
-    
-    //Otherwise, the file extension supplied is not supported.
-    return false;
+	return loadFile(getFilePath(fileName, fileExtension));
+}
+
+bool AssetManager::loadFile(std::string filePath)
+{
+	std::string fileExtension = filePath.substr(filePath.length() - 4);
+
+	if (fileExtension == ".obj")
+		return loadObj(filePath);
+	else if (fileExtension == ".dae")
+		return loadCollada(filePath);
+
+	//Otherwise, the file extension supplied is not supported.
+	return false;
 }
 
 //============================================================================//
@@ -170,10 +177,10 @@ void AssetManager::addBone(XMLNode *boneNode, Bone *parent, Armature *armature)
         addBone(child, parent, armature);
 }
     
-bool AssetManager::loadCollada(std::string fileName, std::string fileExtension)
+bool AssetManager::loadCollada(std::string filePath)
 {
     //Building an XML document from the collada file.
-    XMLDocument document = XMLDocument(fileName, fileExtension);
+	XMLDocument document = XMLDocument(filePath);
     document.buildDocument();
     
     //Making sure the document was built properly.
@@ -669,12 +676,12 @@ bool AssetManager::loadCollada(std::string fileName, std::string fileExtension)
     return false;
 }
 
-bool AssetManager::loadObj(std::string fileName, std::string fileExtension)
+bool AssetManager::loadObj(std::string filePath)
 {
     //----------------------Temporary Storage Variables-----------------------//
     
     //Creating an ifstream object from the file name passed in.
-    std::ifstream file(getFilePath(fileName, fileExtension));
+	std::ifstream file(filePath);
     
     //This string holds the current file line.
     std::string fileLine;
@@ -789,12 +796,12 @@ bool AssetManager::loadObj(std::string fileName, std::string fileExtension)
     //-----------------------------Mesh Computing-----------------------------//
     
     //Computing the total number of vertices.
-    int vertexCount = faceCount * 3;
+    const int vertexCount = faceCount * 3;
     
     //Creating temporary arrays to hold vertex data.
-    float positions[vertexCount * 3];
-    float normals[vertexCount * 3];
-    float textureCoordinates[vertexCount * 2];
+    std::vector<float> positions = std::vector<float>(vertexCount * 3);
+	std::vector<float> normals = std::vector<float>(vertexCount * 3);
+	std::vector<float> textureCoordinates = std::vector<float>(vertexCount * 2);
     
     int dataIndex = 0;
     
@@ -814,7 +821,7 @@ bool AssetManager::loadObj(std::string fileName, std::string fileExtension)
     vertexData->setVertexCount(vertexCount);
     
     //Adding the positions to vertex data.
-    vertexData->addData(Position, positions, vertexCount * 3);
+    vertexData->addData(Position, &positions[0], vertexCount * 3);
     
     if(hasNormals)
     {
@@ -833,7 +840,7 @@ bool AssetManager::loadObj(std::string fileName, std::string fileExtension)
         }
         
         //Adding the positions to vertex data.
-        vertexData->addData(Normal, normals, vertexCount * 3);
+        vertexData->addData(Normal, &normals[0], vertexCount * 3);
     }
     
     if(hasTextureCoordinates)
@@ -853,14 +860,18 @@ bool AssetManager::loadObj(std::string fileName, std::string fileExtension)
         }
         
         //Adding the positions to vertex data.
-        vertexData->addData(TextureCoordinate, textureCoordinates,
+        vertexData->addData(TextureCoordinate, &textureCoordinates[0],
                               vertexCount * 2);
     }
     
     //Finalizing the vertex data.
     vertexData->finalizeVertexData();
     
-    StaticMesh *staticMesh = new StaticMesh(fileName);
+	//Getting the file name from the file path.
+	std::string fileName = filePath.substr(filePath.find_last_of('\\'));
+	std::string meshName = fileName.substr(0, fileName.find_last_of('.'));
+
+	StaticMesh *staticMesh = new StaticMesh(meshName);
     staticMesh->setVertexData(vertexData);
     
     //Adding the mesh to the asset manager.

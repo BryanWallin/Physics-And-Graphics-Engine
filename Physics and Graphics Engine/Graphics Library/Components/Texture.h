@@ -13,11 +13,13 @@
 #ifndef _TEXTURE_H_
 #define _TEXTURE_H_
 
-#include "MathLibrary.h"
+#include "..\..\Math Library\MathLibrary.h"
 #include "AssetLoader.h"
 #include <string>
 #include <iostream>
-#include <OpenGLES/ES2/gl.h>
+#include <Windows.h>
+#include <GL\glew.h>
+#include <GL\gl.h>
 
 namespace GraphicsEngine
 {

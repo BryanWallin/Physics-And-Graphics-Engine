@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Graphics Library">
+      <UniqueIdentifier>{eca72042-3053-4695-a210-1699b925d5ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math Library">
+      <UniqueIdentifier>{b1265608-cae7-479d-8390-c60a51e27622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics Library">
+      <UniqueIdentifier>{15966f1f-79cc-4c8b-8f80-ba154e5c854a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math Library\Matrices">
+      <UniqueIdentifier>{f08dc915-5237-470f-8682-112e4c248f6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math Library\Quaternions">
+      <UniqueIdentifier>{2d19bdfc-dd9c-4e0a-bdb7-e65afa2df917}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math Library\Vectors">
+      <UniqueIdentifier>{d1cc33a2-4496-40b4-a405-28a08222b8f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics Library\Asset Management">
+      <UniqueIdentifier>{beced6df-25ea-4c2d-9778-6436dc1551f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics Library\Components">
+      <UniqueIdentifier>{068c3a7c-266b-40d7-a699-0fca62653f90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics Library\Particle Library">
+      <UniqueIdentifier>{aaceb0c5-5d1a-42e5-96f1-8c2de6244a68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics Library\Particle Library\Particle Forces">
+      <UniqueIdentifier>{95c88b29-7b2a-4b3c-8ba8-5713d2ca9c85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics Library\Skeletal Animation">
+      <UniqueIdentifier>{1230b7c2-b311-4db5-86c4-13fd88a79743}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector3.cpp">
+      <Filter>Header Files\Math Library\Vectors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector4.cpp">
+      <Filter>Header Files\Math Library\Vectors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector2.cpp">
+      <Filter>Header Files\Math Library\Vectors</Filter>
+    </ClCompile>
+    <ClCompile Include="Basic Skeletal Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Quaternions\Quaternion.cpp">
+      <Filter>Header Files\Math Library\Quaternions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix3.cpp">
+      <Filter>Header Files\Math Library\Matrices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix4.cpp">
+      <Filter>Header Files\Math Library\Matrices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix2.cpp">
+      <Filter>Header Files\Math Library\Matrices</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\XMLDocument.cpp">
+      <Filter>Header Files\Graphics Library\Asset Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\XMLNode.cpp">
+      <Filter>Header Files\Graphics Library\Asset Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\AssetManager.cpp">
+      <Filter>Header Files\Graphics Library\Asset Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\FileManager.cpp">
+      <Filter>Header Files\Graphics Library\Asset Management</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Light.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Material.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\OpenGLProgram.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\RenderQueue.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\SceneManager.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\SkinnedMesh.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\StaticMesh.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Texture.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Transform.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\VertexData.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Actor.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Camera.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\CameraController.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\ParticleEmitter.cpp">
+      <Filter>Header Files\Graphics Library\Particle Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle.cpp">
+      <Filter>Header Files\Graphics Library\Particle Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleGravity.cpp">
+      <Filter>Header Files\Graphics Library\Particle Library\Particle Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleSpring.cpp">
+      <Filter>Header Files\Graphics Library\Particle Library\Particle Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleDrag.cpp">
+      <Filter>Header Files\Graphics Library\Particle Library\Particle Forces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Skeletal Animation\Armature.cpp">
+      <Filter>Header Files\Graphics Library\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Skeletal Animation\Bone.cpp">
+      <Filter>Header Files\Graphics Library\Skeletal Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Physics Library\RigidBody.cpp">
+      <Filter>Header Files\Physics Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\MathUtilities.cpp">
+      <Filter>Header Files\Math Library</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\AssetLoader.cpp">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\MathUtilities.h">
+      <Filter>Header Files\Math Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\MathLibrary.h">
+      <Filter>Header Files\Math Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector4.h">
+      <Filter>Header Files\Math Library\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector2.h">
+      <Filter>Header Files\Math Library\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector3.h">
+      <Filter>Header Files\Math Library\Vectors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Quaternions\Quaternion.h">
+      <Filter>Header Files\Math Library\Quaternions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix2.h">
+      <Filter>Header Files\Math Library\Matrices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix3.h">
+      <Filter>Header Files\Math Library\Matrices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix4.h">
+      <Filter>Header Files\Math Library\Matrices</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\XMLDocument.h">
+      <Filter>Header Files\Graphics Library\Asset Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\XMLNode.h">
+      <Filter>Header Files\Graphics Library\Asset Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\AssetManager.h">
+      <Filter>Header Files\Graphics Library\Asset Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\FileManager.h">
+      <Filter>Header Files\Graphics Library\Asset Management</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Light.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Material.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\OpenGLProgram.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\RenderQueue.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\SceneManager.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\SkinnedMesh.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\StaticMesh.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Texture.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Transform.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\VertexData.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Actor.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\AssetLoader.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Camera.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\CameraController.h">
+      <Filter>Header Files\Graphics Library\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle.h">
+      <Filter>Header Files\Graphics Library\Particle Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\ParticleEmitter.h">
+      <Filter>Header Files\Graphics Library\Particle Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\ParticleLibrary.h">
+      <Filter>Header Files\Graphics Library\Particle Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleGravity.h">
+      <Filter>Header Files\Graphics Library\Particle Library\Particle Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleSpring.h">
+      <Filter>Header Files\Graphics Library\Particle Library\Particle Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleDrag.h">
+      <Filter>Header Files\Graphics Library\Particle Library\Particle Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleForce.h">
+      <Filter>Header Files\Graphics Library\Particle Library\Particle Forces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Skeletal Animation\Armature.h">
+      <Filter>Header Files\Graphics Library\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Skeletal Animation\Bone.h">
+      <Filter>Header Files\Graphics Library\Skeletal Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Physics Library\RigidBody.h">
+      <Filter>Header Files\Physics Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\OpenGL.h">
+      <Filter>Header Files\Graphics Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\GraphicsLibrary.h">
+      <Filter>Header Files\Graphics Library</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Physics Library\PhysicsLibrary.h">
+      <Filter>Header Files\Physics Library</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

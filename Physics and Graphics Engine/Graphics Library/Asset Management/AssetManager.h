@@ -18,12 +18,12 @@
 #include <vector>
 #include <queue>
 #include <unordered_map>
-#include "StaticMesh.h"
-#include "SkinnedMesh.h"
-#include "Material.h"
-#include "OpenGLProgram.h"
+#include "..\Components\StaticMesh.h"
+#include "..\Components\SkinnedMesh.h"
+#include "..\Components\Material.h"
+#include "..\Components\OpenGLProgram.h"
 #include "XMLDocument.h"
-#include "Armature.h"
+#include "..\Skeletal Animation\Armature.h"
 
 namespace GraphicsEngine
 {
@@ -62,6 +62,8 @@ public:
     //============================Loading Methods=============================//
     
     bool loadFile(std::string fileName, std::string fileExtension);
+
+	bool loadFile(std::string filePath);
     
 private:
     
@@ -91,9 +93,9 @@ private:
     
     void addBone(XMLNode *boneNode, Bone *parent, Armature *armature);
     
-    bool loadCollada(std::string fileName, std::string fileExtension);
+	bool loadCollada(std::string filePath);
     
-    bool loadObj(std::string fileName, std::string fileExtension);
+	bool AssetManager::loadObj(std::string filePath);
 };
 
 }

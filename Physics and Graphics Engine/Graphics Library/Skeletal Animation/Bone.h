@@ -15,7 +15,7 @@
 
 #include <iostream>
 #include <vector>
-#include "Transform.h"
+#include "..\Components\Transform.h"
 #include "Armature.h"
 
 namespace GraphicsEngine

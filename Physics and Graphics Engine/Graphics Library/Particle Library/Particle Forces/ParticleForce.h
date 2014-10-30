@@ -13,7 +13,7 @@
 #ifndef _PARTICLEFORCE_H_
 #define _PARTICLEFORCE_H_
 
-#include "Particle.h"
+#include "..\Particle.h"
 
 namespace GraphicsEngine
 {

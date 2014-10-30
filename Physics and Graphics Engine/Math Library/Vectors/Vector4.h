@@ -9,8 +9,8 @@
 //                                                                            //
 //============================================================================//
 
-#ifndef _VECTOR4_H_
-#define _VECTOR4_H_
+#ifndef __VECTOR4__
+#define __VECTOR4__
 
 #include <cmath>
 #include "Vector2.h"

@@ -15,9 +15,9 @@
 #ifndef _PARTICLEEMITTER_H_
 #define _PARTICLEEMITTER_H_
 
-#include "MathLibrary.h"
+#include "..\..\Math Library\MathLibrary.h"
 #include "Particle.h"
-#include "ParticleForce.h"
+#include "Particle Forces\ParticleForce.h"
 #include <vector>
 
 namespace GraphicsEngine

@@ -13,7 +13,7 @@
 #ifndef _MATERIAL_H_
 #define _MATERIAL_H_
 
-#include "MathLibrary.h"
+#include "..\..\Math Library\MathLibrary.h"
 #include "OpenGLProgram.h"
 #include "Texture.h"
 

@@ -14,7 +14,7 @@
 #ifndef _CAMERA_H_
 #define _CAMERA_H_
 
-#include "MathLibrary.h"
+#include "..\..\Math Library\MathLibrary.h"
 #include "Actor.h"
 
 namespace GraphicsEngine

@@ -10,6 +10,8 @@
 //                                                                            //
 //============================================================================//
 
+#include <cstdio>
+#include <ctime>
 #include "Bone.h"
 
 namespace GraphicsEngine
@@ -150,7 +152,7 @@ void Bone::setBindPose()
 //This method updates the global transfom.
 void Bone::update(std::vector<Matrix4> &matrixList)
 {
-    //Updating this bone.
+	//Updating this bone.
     if(m_Parent == NULL)
     {
         m_GlobalTransform = m_LocalTransform.getTransform();
@@ -158,17 +160,14 @@ void Bone::update(std::vector<Matrix4> &matrixList)
     else
     {
         m_GlobalTransform = m_Parent->getGlobalTransform() *
-        m_LocalTransform.getTransform();
+			m_LocalTransform.getTransform();
     }
-    
-    matrixList.insert(matrixList.begin() + m_Index,
-                      m_GlobalTransform * m_InverseBindPose);
+
+	matrixList[m_Index] = m_GlobalTransform * m_InverseBindPose;
     
     //Updating this child's bone.
     for(Bone *bone : m_Children)
     {
-//        std::cout << "Updating " << bone->getName() << " from " << m_Name
-//                  << ".\n";
         bone->update(matrixList);
     }
 }

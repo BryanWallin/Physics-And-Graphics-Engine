@@ -30,11 +30,20 @@ XMLDocument::XMLDocument() : XMLDocument("", "")
 //The iOS constructor.
 XMLDocument::XMLDocument(std::string fileName, std::string fileExtension)
 {
-    m_FileName = fileName;
-    m_FileExtension = fileExtension;
+	m_FilePath = getFilePath(fileName, fileExtension);
     
     m_RootNode = NULL;
 }
+
+//The PC constructor.
+XMLDocument::XMLDocument(std::string filePath)
+{
+	m_FilePath = filePath;
+
+	m_RootNode = NULL;
+}
+
+
 
 //=================================Destructor=================================//
 
@@ -49,8 +58,7 @@ XMLDocument::~XMLDocument()
 //This method sets the file.
 void XMLDocument::setFile(std::string fileName, std::string fileExtension)
 {
-    m_FileName = fileName;
-    m_FileExtension = fileExtension;
+	m_FilePath = getFilePath(fileName, fileExtension);
 }
 
 //==================================Getters===================================//
@@ -79,7 +87,7 @@ XMLNode * XMLDocument::getNodeByID(std::string nodeID)
 bool XMLDocument::buildDocument()
 {
     //Creating an ifstream object from the file name passed in.
-    std::ifstream file(getFilePath(m_FileName, m_FileExtension));
+    std::ifstream file(m_FilePath);
     
     //--------------------------Bookeeping Variables--------------------------//
     

@@ -29,8 +29,18 @@ OpenGLProgram::OpenGLProgram(std::string vertexShaderFileName,
 {
     //Creating the program.
     if(!vertexShaderFileName.empty())
-        this->createProgram(vertexShaderFileName, vertexShaderFileType,
-                            fragmentShaderFileName, fragmentShaderFileType);
+        this->createProgram(
+			getFilePath(vertexShaderFileName, vertexShaderFileType),
+			getFilePath(fragmentShaderFileName, fragmentShaderFileType));
+}
+
+//The standard constructor.
+OpenGLProgram::OpenGLProgram(std::string vertexShaderFilePath,
+	std::string fragmentShaderFilePath)
+{
+	//Creating the program.
+	if (!vertexShaderFilePath.empty() && !fragmentShaderFilePath.empty())
+		this->createProgram(vertexShaderFilePath, fragmentShaderFilePath);
 }
     
 //==================================Getters===================================//
@@ -116,10 +126,8 @@ std::vector<std::string> OpenGLProgram::getTextureList()
 
 //===============Program Compiling, Linking, and Error Checking===============//
     
-bool OpenGLProgram::createProgram(std::string vertexShaderFileName,
-                                  std::string vertexShaderFileType,
-                                  std::string fragmentShaderFileName,
-                                  std::string fragmentShaderFileType)
+bool OpenGLProgram::createProgram(std::string vertexShaderFilePath,
+	std::string fragmentShaderFilePath)
 {
     //Clearing the attributes, uniforms, and textures maps.
     m_Uniforms.clear();
@@ -134,14 +142,19 @@ bool OpenGLProgram::createProgram(std::string vertexShaderFileName,
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     
     //Getting the vertex and fragment shader contents.
-    const GLchar * vertexShaderContents =
-        getFileContents(vertexShaderFileName, vertexShaderFileType);
-    const GLchar * fragmentShaderContents =
-        getFileContents(fragmentShaderFileName, fragmentShaderFileType);
+    std::string vertexShaderContents =
+		getFileContents(vertexShaderFilePath);
+	std::string fragmentShaderContents =
+		getFileContents(fragmentShaderFilePath);
+
+	const GLchar * vertexShaderContentsPointer = 
+		vertexShaderContents.c_str();
+	const GLchar * fragmentShaderContentsPointer = 
+		fragmentShaderContents.c_str();
     
     //Passing the shader contents to the shader IDs.
-    glShaderSource(vertexShader, 1, &vertexShaderContents, NULL);
-    glShaderSource(fragmentShader, 1, &fragmentShaderContents, NULL);
+	glShaderSource(vertexShader, 1, &vertexShaderContentsPointer, NULL);
+	glShaderSource(fragmentShader, 1, &fragmentShaderContentsPointer, NULL);
 
     //Compiling the program.
     if(!compileShaders(vertexShader, fragmentShader))
@@ -157,15 +170,9 @@ bool OpenGLProgram::createProgram(std::string vertexShaderFileName,
     
     //----------File Reading for Attributes, Uniforms, and Textures-----------//
     
-    //Getting the file paths.
-    std::string vertexFilePath = getFilePath(vertexShaderFileName,
-                                             vertexShaderFileType);
-    std::string fragmentFilePath = getFilePath(fragmentShaderFileName,
-                                             fragmentShaderFileType);
-    
     //Creating an ifstream object from the file name passed in.
-    std::ifstream vertexShaderFile(vertexFilePath);
-    std::ifstream fragmentShaderFile(fragmentFilePath);
+    std::ifstream vertexShaderFile(vertexShaderFilePath);
+	std::ifstream fragmentShaderFile(fragmentShaderFilePath);
     
     //This string holds the current file line.
     std::string fileLine;

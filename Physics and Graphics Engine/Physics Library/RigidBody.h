@@ -14,8 +14,8 @@
 #ifndef __RIGID_BODY__
 #define __RIGID_BODY__
 
-#include "MathLibrary.h"
-#include "Transform.h"
+#include "..\Math Library\MathLibrary.h"
+#include "..\Graphics Library\Components\Transform.h"
 
 namespace GraphicsEngine
 {

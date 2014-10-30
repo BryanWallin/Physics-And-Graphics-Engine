@@ -13,7 +13,8 @@
 #define _ASSETLOADER_H_
 
 #include <iostream>
-#include <OpenGLES/ES2/gl.h>
+#include <string>
+#include <fstream>
 
 namespace GraphicsEngine
 {
@@ -21,8 +22,12 @@ namespace GraphicsEngine
 //This method gets the full file path of the file name and type requested.
 std::string getFilePath(std::string fileName, std::string fileType);
 
-//This method gets the file contents of the file name and type requested.
-GLchar * getFileContents(std::string fileName, std::string filePath);
+//This method gets the full file contents of the file name and type requested.
+const std::string getFileContents(std::string fileName, std::string fileType);
+
+//This method gets the full file contents of the file at the specified file 
+//path.
+const std::string getFileContents(std::string filePath);
 
 }
 

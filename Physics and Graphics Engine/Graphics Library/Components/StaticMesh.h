@@ -13,7 +13,7 @@
 #ifndef _MESH_H_
 #define _MESH_H_
 
-#include "MathLibrary.h"
+#include "..\..\Math Library\MathLibrary.h"
 #include "VertexData.h"
 #include "Actor.h"
 

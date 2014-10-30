@@ -11,8 +11,8 @@
 
 #include "Particle.h"
 #include "ParticleEmitter.h"
-#include "ParticleForce.h"
-#include "ParticleGravity.h"
-#include "ParticleDrag.h"
+#include "Particle Forces\ParticleForce.h"
+#include "Particle Forces\ParticleGravity.h"
+#include "Particle Forces\ParticleDrag.h"
 
 #endif

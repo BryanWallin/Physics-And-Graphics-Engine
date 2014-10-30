@@ -20,7 +20,7 @@
 #include <sstream>
 #include <stack>
 #include <unordered_map>
-#include "AssetLoader.h"
+#include "..\Components\AssetLoader.h"
 #include "XMLNode.h"
 
 namespace GraphicsEngine
@@ -42,6 +42,9 @@ public:
     
     //The iOS constructor.
     XMLDocument(std::string fileName, std::string fileExtension);
+
+	//The PC constructor.
+	XMLDocument(std::string filePath);
     
     //===============================Destructor===============================//
     
@@ -78,10 +81,7 @@ private:
     //========================================================================//
     
     //The file name of this document.
-    std::string m_FileName;
-    
-    //The file extension of this document.
-    std::string m_FileExtension;
+    std::string m_FilePath;
     
     //The root XML node of this document.
     XMLNode *m_RootNode;

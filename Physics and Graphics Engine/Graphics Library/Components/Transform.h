@@ -9,8 +9,7 @@
 #ifndef __TRANSFORM__
 #define __TRANSFORM__
 
-#include "MathLibrary.h"
-#include "Quaternion.h"
+#include "..\..\Math Library\MathLibrary.h"
 
 namespace GraphicsEngine
 {

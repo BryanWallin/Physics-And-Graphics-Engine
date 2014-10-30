@@ -61,7 +61,7 @@ VertexData::VertexData(VertexDataFormat dataFormat, int vertexCount)
     m_VertexDataTypeLengths[BoneWeights] = 2;
     
     //Generating the vertex array and buffer.
-    glGenVertexArraysOES(1, &m_VertexArrayPointer);
+    glGenVertexArrays(1, &m_VertexArrayPointer);
     glGenBuffers(1, &m_VertexBufferPointer);
 }
 
@@ -162,7 +162,7 @@ bool VertexData::updateData(VertexDataType type, float *data, float dataCount)
 bool VertexData::attachToProgram(OpenGLProgram *program)
 {
     //Binding the vertex array and buffer.
-    glBindVertexArrayOES(m_VertexArrayPointer);
+    glBindVertexArray(m_VertexArrayPointer);
     glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferPointer);
     glBufferData(GL_ARRAY_BUFFER, m_DataCount * sizeof(float),
                  m_Data, GL_DYNAMIC_DRAW);
@@ -233,7 +233,7 @@ bool VertexData::attachToProgram(OpenGLProgram *program)
     }
     
     //Unbinding the current vertex array.
-    glBindVertexArrayOES(0);
+    glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
     return true;
@@ -284,7 +284,7 @@ bool VertexData::buildDataArray()
         
         //Inserting the data into the data array.
         insertData(Position, m_VertexDataTypeData[Position],
-                   m_VertexCount * m_VertexDataTypeLengths[Position]);
+                   (float) m_VertexCount * m_VertexDataTypeLengths[Position]);
     }
     if(!(m_VertexDataTypeData[Normal] == NULL))
     {
@@ -293,7 +293,7 @@ bool VertexData::buildDataArray()
         
         //Inserting the data into the data array.
         insertData(Normal, m_VertexDataTypeData[Normal],
-                   m_VertexCount * m_VertexDataTypeLengths[Normal]);
+                   (float) m_VertexCount * m_VertexDataTypeLengths[Normal]);
     }
     if(!(m_VertexDataTypeData[TextureCoordinate] == NULL))
     {
@@ -302,7 +302,7 @@ bool VertexData::buildDataArray()
         
         //Inserting the data into the data array.
         insertData(TextureCoordinate, m_VertexDataTypeData[TextureCoordinate],
-                   m_VertexCount * m_VertexDataTypeLengths[TextureCoordinate]);
+                   (float) m_VertexCount * m_VertexDataTypeLengths[TextureCoordinate]);
     }
     if(!(m_VertexDataTypeData[Color] == NULL))
     {
@@ -311,7 +311,7 @@ bool VertexData::buildDataArray()
         
         //Inserting the data into the data array.
         insertData(Color, m_VertexDataTypeData[Color],
-                   m_VertexCount * m_VertexDataTypeLengths[Color]);
+                   (float) m_VertexCount * m_VertexDataTypeLengths[Color]);
     }
     if(!(m_VertexDataTypeData[Size] == NULL))
     {
@@ -320,7 +320,7 @@ bool VertexData::buildDataArray()
         
         //Inserting the data into the data array.
         insertData(Size, m_VertexDataTypeData[Size],
-                   m_VertexCount * m_VertexDataTypeLengths[Size]);
+                   (float) m_VertexCount * m_VertexDataTypeLengths[Size]);
     }
     if(!(m_VertexDataTypeData[BoneIndices] == NULL))
     {
@@ -329,7 +329,7 @@ bool VertexData::buildDataArray()
         
         //Inserting the data into the data array.
         insertData(BoneIndices, m_VertexDataTypeData[BoneIndices],
-                   m_VertexCount * m_VertexDataTypeLengths[BoneIndices]);
+                   (float) m_VertexCount * m_VertexDataTypeLengths[BoneIndices]);
     }
     if(!(m_VertexDataTypeData[BoneWeights] == NULL))
     {
@@ -338,7 +338,7 @@ bool VertexData::buildDataArray()
         
         //Inserting the data into the data array.
         insertData(BoneWeights, m_VertexDataTypeData[BoneWeights],
-                   m_VertexCount * m_VertexDataTypeLengths[BoneWeights]);
+                   (float) m_VertexCount * m_VertexDataTypeLengths[BoneWeights]);
     }
     
     //Making sure the current offset and the stride match up.

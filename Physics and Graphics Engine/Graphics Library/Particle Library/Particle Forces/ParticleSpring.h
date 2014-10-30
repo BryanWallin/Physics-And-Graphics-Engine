@@ -16,7 +16,7 @@
 
 #include <iostream>
 #include "ParticleForce.h"
-#include "MathLibrary.h"
+#include "..\..\..\Math Library\MathLibrary.h"
 
 namespace GraphicsEngine
 {

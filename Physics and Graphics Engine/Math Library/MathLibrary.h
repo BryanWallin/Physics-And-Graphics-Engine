@@ -10,15 +10,15 @@
 //                                                                            //
 //============================================================================//
 
-#ifndef _MATHLIBRARY_H_
-#define _MATHLIBRARY_H_
+#ifndef __MATHLIBRARY__
+#define __MATHLIBRARY__
 
-#include "Vector2.h"
-#include "Vector3.h"
-#include "Vector4.h"
-#include "Matrix2.h"
-#include "Matrix3.h"
-#include "Matrix4.h"
+#include "Vectors\Vector2.h"
+#include "Vectors\Vector3.h"
+#include "Vectors\Vector4.h"
+#include "Matrices\Matrix2.h"
+#include "Matrices\Matrix3.h"
+#include "Matrices\Matrix4.h"
 #include "MathUtilities.h"
 
 #endif

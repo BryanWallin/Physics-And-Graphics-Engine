@@ -14,7 +14,7 @@
 #define __SKINNED_MESH__
 
 #include "StaticMesh.h"
-#include "Armature.h"
+#include "..\Skeletal Animation\Armature.h"
 
 namespace GraphicsEngine
 {

@@ -14,11 +14,11 @@
 #define _MATRIX3_H_
 
 #include <cmath>
-#include "Vector3.h"
+#include "..\Vectors\Vector3.h"
 #include "Matrix2.h"
 #include "Matrix4.h"
-#include "MathUtilities.h"
-#include "Quaternion.h"
+#include "..\MathUtilities.h"
+#include "..\Quaternions\Quaternion.h"
 
 namespace GraphicsEngine
 {

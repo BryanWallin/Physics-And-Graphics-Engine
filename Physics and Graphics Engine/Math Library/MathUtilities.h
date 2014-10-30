@@ -12,16 +12,16 @@
 #ifndef _MATHUTILITIES_H_
 #define _MATHUTILITIES_H_
 
-#include "Vector2.h"
-#include "Vector3.h"
-#include "Vector4.h"
+#include "Vectors\Vector2.h"
+#include "Vectors\Vector3.h"
+#include "Vectors\Vector4.h"
 
 namespace GraphicsEngine
 {
 
 //=================================Constants==================================//
 
-const float PI = 3.1415926535;
+const float PI = 3.1415926f;
 
 //==================================Methods===================================//
 

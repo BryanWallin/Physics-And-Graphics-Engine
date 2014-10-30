@@ -14,7 +14,7 @@
 #ifndef __PARTICLE_GRAVITY__
 #define __PARTICLE_GRAVITY__
 
-#include "MathLibrary.h"
+#include "..\..\..\Math Library\MathLibrary.h"
 #include "ParticleForce.h"
 #include <iostream>
 

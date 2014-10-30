@@ -20,7 +20,9 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <OpenGLES/ES2/gl.h>
+#include <Windows.h>
+#include <GL\glew.h>
+#include <GL\gl.h>
 #include "AssetLoader.h"
 #include "Texture.h"
 
@@ -38,10 +40,14 @@ public:
     //==============================Constructors==============================//
 
     //The complete constructor.
-    OpenGLProgram(std::string vertexShaderFileName = "",
-                  std::string vertexShaderFileType = "",
-                  std::string fragmentShaderFileName = "",
-                  std::string fragmentShaderFileType = "");
+    OpenGLProgram(std::string vertexShaderFileName,
+                  std::string vertexShaderFileType,
+                  std::string fragmentShaderFileName,
+                  std::string fragmentShaderFileType);
+
+	//The standard constructor.
+	OpenGLProgram(std::string vertexShaderFilePath,
+		std::string fragmentShaderFilePath);
     
     //================================Getters=================================//
     
@@ -103,11 +109,9 @@ private:
     //=============Program Compiling, Linking, and Error Checking=============//
     
     //This method creates the program with the specified vertex and fragment
-    //shader file names and extension types.
-    bool createProgram(std::string vertexShaderFileName,
-                       std::string vertexShaderFileType,
-                       std::string fragmentShaderFileName,
-                       std::string fragmentShaderFileType);
+    //shader file paths.
+    bool createProgram(std::string vertexShaderFilePath,
+                       std::string fragmentShaderFilePath);
     
     //This method compiles the shaders and returns true if successful, false
     //otherwise.

@@ -57,7 +57,7 @@ void Particle::setMass(float mass)
     
     //If the mass is set to MAXFLOAT, then it means we want it to have
     //infinite mass.
-    if(mass == MAXFLOAT)
+	if (mass == FLT_MAX)
         m_InvertedMass = 0;
     else if(mass > 0)
         m_InvertedMass = 1 / mass;
@@ -71,7 +71,7 @@ void Particle::setInvertedMass(float invertedMass)
     //If the inverted mass is set to 0, then it means we want it to have
     //infinite mass.
     if(invertedMass == 0)
-        m_Mass = MAXFLOAT;
+		m_Mass = FLT_MAX;
     else if(invertedMass > 0)
         m_Mass = 1 / invertedMass;
 }

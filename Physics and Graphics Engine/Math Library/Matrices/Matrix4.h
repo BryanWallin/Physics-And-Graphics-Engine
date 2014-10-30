@@ -14,9 +14,9 @@
 #define _MATRIX4_H_
 
 #include <cmath>
-#include "Vector4.h"
+#include "..\Vectors\Vector4.h"
 #include "Matrix3.h"
-#include "Quaternion.h"
+#include "..\Quaternions\Quaternion.h"
 
 namespace GraphicsEngine
 {

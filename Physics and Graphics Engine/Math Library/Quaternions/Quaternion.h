@@ -15,16 +15,15 @@
 #define __QUATERNION__
 
 #include <iostream>
-#include "Vector3.h"
-#include "Matrix4.h"
-#include "MathLibrary.h"
+#include "..\Vectors\Vector3.h"
+#include "..\Matrices\Matrix4.h"
 
 namespace GraphicsEngine
 {
 
 class Vector3;
-    class Matrix3;
-    class Matrix4;
+class Matrix3;
+class Matrix4;
 
 class Quaternion
 {

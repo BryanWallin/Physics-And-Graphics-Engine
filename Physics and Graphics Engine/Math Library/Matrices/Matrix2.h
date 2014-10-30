@@ -14,7 +14,7 @@
 #define __MATRIX2__
 
 #include <cmath>
-#include "Vector2.h"
+#include "..\Vectors\Vector2.h"
 #include "Matrix3.h"
 #include "Matrix4.h"
 
