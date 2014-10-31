@@ -4,9 +4,9 @@
 #include <iostream>
 #include <iomanip>
 #include <Windows.h>
-#include <GL\glew.h>
-#include <GL\freeglut.h>
-#include <GL\GL.h>
+#include "..\Common\Headers\glew.h"
+#include "..\Common\Headers\freeglut.h"
+#include <GL\gl.h>
 #include <cmath>
 
 #define CRTDBG_MAP_ALLOC
@@ -26,7 +26,8 @@ using namespace GraphicsEngine;
 //==============================Global Variables==============================//
 
 //Defining an enumeration to make the reading of key states easier.
-enum Keys {
+enum Keys 
+{
 	UpArrow, DownArrow, LeftArrow, RightArrow, W, S, X, Z, Q, E, F, R,
 	O, P, ONE, TWO, THREE, NumberOfKeys
 };

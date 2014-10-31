@@ -266,9 +266,6 @@
     <ClInclude Include="..\..\..\Physics and Graphics Engine\Physics Library\RigidBody.h">
       <Filter>Header Files\Physics Library</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\OpenGL.h">
-      <Filter>Header Files\Graphics Library</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\GraphicsLibrary.h">
       <Filter>Header Files\Graphics Library</Filter>
     </ClInclude>

@@ -41,6 +41,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(SolutionDir)Common\Libraries\</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -135,7 +136,6 @@
     <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Transform.h" />
     <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\VertexData.h" />
     <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\GraphicsLibrary.h" />
-    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\OpenGL.h" />
     <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleDrag.h" />
     <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleForce.h" />
     <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleGravity.h" />

@@ -10,8 +10,8 @@
 //============================================================================//
 
 //Including the necessary files.
-#include <GL/glew.h>
-#include <GL/freeglut.h>
+#include "..\Common\Headers\glew.h"
+#include "..\Common\Headers\freeglut.h"
 #include <iostream>
 #include <cmath>
 

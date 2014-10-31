@@ -1,13 +1,13 @@
-﻿Build started 10/25/2014 10:06:23 PM.
+﻿Build started 10/30/2014 8:52:57 PM.
      1>Project "C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Basic Skeletal Animation\Basic Skeletal Animation.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt "Basic Skeletal Animation.cpp"
          Basic Skeletal Animation.cpp
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(50): warning C4305: 'initializing' : truncation from 'double' to 'float'
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(518): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(518): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(550): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(550): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(51): warning C4305: 'initializing' : truncation from 'double' to 'float'
+     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(519): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(519): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(551): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(551): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic Skeletal Animation.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic Skeletal Animation.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic Skeletal Animation.lib" /MACHINE:X86 Debug\AssetManager.obj
          Debug\FileManager.obj
@@ -49,4 +49,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.78
+Time Elapsed 00:00:01.68
