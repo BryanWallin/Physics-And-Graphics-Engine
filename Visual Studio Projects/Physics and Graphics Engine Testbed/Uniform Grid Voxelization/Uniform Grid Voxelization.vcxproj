@@ -59,6 +59,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>copy "$(SolutionDir)Common\DLLs\freeglut.dll" $(TargetDir); copy "$(SolutionDir)Common\DLLs\glew32.dll" $(TargetDir); </Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
