@@ -1,15 +1,29 @@
-﻿Build started 10/30/2014 8:52:57 PM.
-     1>Project "C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Basic Skeletal Animation\Basic Skeletal Animation.vcxproj" on node 2 (Build target(s)).
+﻿Build started 11/3/2014 2:59:39 PM.
+     1>Project "C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Basic Skeletal Animation\Basic Skeletal Animation.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt "Basic Skeletal Animation.cpp"
-         Basic Skeletal Animation.cpp
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(51): warning C4305: 'initializing' : truncation from 'double' to 'float'
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(519): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(519): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(551): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic skeletal animation\basic skeletal animation.cpp(551): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt "..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\AssetManager.cpp" "..\..\..\Physics and Graphics Engine\Graphics Library\Components\OpenGLProgram.cpp"
+         OpenGLProgram.cpp
+         AssetManager.cpp
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(385): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(387): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(390): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(496): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(542): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(543): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(767): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(768): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(777): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(786): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(792): warning C4244: 'argument' : conversion from 'int' to 'const float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(812): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(824): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(834): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(843): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(855): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>c:\users\wallin\documents\github\physics-and-graphics-engine\physics and graphics engine\graphics library\asset management\assetmanager.cpp(864): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+         Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic Skeletal Animation.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic Skeletal Animation.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic Skeletal Animation.lib" /MACHINE:X86 Debug\AssetManager.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic Skeletal Animation.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib opengl32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic Skeletal Animation.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic Skeletal Animation.lib" /MACHINE:X86 Debug\AssetManager.obj
          Debug\FileManager.obj
          Debug\XMLDocument.obj
          Debug\XMLNode.obj
@@ -44,9 +58,9 @@
          Debug\Vector4.obj
          Debug\RigidBody.obj
          "Debug\Basic Skeletal Animation.obj"
-         Basic Skeletal Animation.vcxproj -> C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic Skeletal Animation.exe
-     1>Done Building Project "C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Basic Skeletal Animation\Basic Skeletal Animation.vcxproj" (Build target(s)).
+         Basic Skeletal Animation.vcxproj -> C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic Skeletal Animation.exe
+     1>Done Building Project "C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Basic Skeletal Animation\Basic Skeletal Animation.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:01.68
+Time Elapsed 00:00:02.86

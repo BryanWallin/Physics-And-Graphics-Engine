@@ -21,7 +21,7 @@
 #include <string>
 #include <vector>
 #include <Windows.h>
-#include <GL\glew.h>
+#include "..\..\..\Visual Studio Projects\Physics and Graphics Engine Testbed\Common\Headers\glew.h"
 #include <GL\gl.h>
 #include "AssetLoader.h"
 #include "Texture.h"
@@ -45,9 +45,13 @@ public:
                   std::string fragmentShaderFileName,
                   std::string fragmentShaderFileType);
 
-	//The standard constructor.
+	//The vertex and fragment shader constructor.
 	OpenGLProgram(std::string vertexShaderFilePath,
 		std::string fragmentShaderFilePath);
+
+	//The vertex, geometry, and fragment shader constructor.
+	OpenGLProgram(std::string vertexShaderFilePath, 
+		std::string geometryShaderFilePath, std::string fragmentShaderFilePath);
     
     //================================Getters=================================//
     
@@ -71,6 +75,17 @@ public:
     
     //This method gets the texture list.
     std::vector<std::string> getTextureList();
+
+	//=================Attribute, Uniform, and Texture Adding=================//
+
+	//This method adds an attribute name/ID pair to the attributes list.
+	void addAttribute(std::string attributeName);
+
+	//This method adds a uniform name/ID pair to the uniforms list.
+	void addUniform(std::string uniformName);
+
+	//This method adds a uniform name/ID pair to the uniforms list.
+	void addTexture(std::string textureName);
 
 private:
 
@@ -112,10 +127,15 @@ private:
     //shader file paths.
     bool createProgram(std::string vertexShaderFilePath,
                        std::string fragmentShaderFilePath);
+
+	//This method creates the program with the specified vertex, geometry, and 
+	//fragment shader file paths.
+	bool createProgram(std::string vertexShaderFilePath,
+		std::string geometryShaderFilePath, std::string fragmentShaderFilePath);
     
-    //This method compiles the shaders and returns true if successful, false
-    //otherwise.
-    bool compileShaders(GLuint vertexShader, GLuint fragmentShader);
+	//This method compiles a shader and returns true if successful, false
+	//otherwise.
+	bool compileShader(GLuint shaderPointer);
     
     //This method links the program and returns true if successful, false
     //otherwise.
@@ -123,19 +143,6 @@ private:
     
     //This method displays an error if there exists one.
     void displayError(GLuint program);
-    
-public:
-    
-    //=================Attribute, Uniform, and Texture Adding=================//
-    
-    //This method adds an attribute name/ID pair to the attributes list.
-    void addAttribute(std::string attributeName);
-    
-    //This method adds a uniform name/ID pair to the uniforms list.
-    void addUniform(std::string uniformName);
-    
-    //This method adds a uniform name/ID pair to the uniforms list.
-    void addTexture(std::string textureName);
 };
 
 }

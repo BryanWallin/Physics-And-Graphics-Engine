@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{11BDC4D0-7C6F-48A0-99E4-2E9B448FEBD1}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>UniformGridVoxelization</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(SolutionDir)Common\Libraries\</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\AssetManager.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\FileManager.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\XMLDocument.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\XMLNode.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Actor.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\AssetLoader.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Camera.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\CameraController.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Light.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Material.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\OpenGLProgram.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\RenderQueue.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\SceneManager.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\SkinnedMesh.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\StaticMesh.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Texture.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Transform.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\VertexData.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleDrag.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleGravity.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleSpring.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\ParticleEmitter.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Skeletal Animation\Armature.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Graphics Library\Skeletal Animation\Bone.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\MathUtilities.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix2.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix3.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix4.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Quaternions\Quaternion.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector2.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector3.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector4.cpp" />
+    <ClCompile Include="..\..\..\Physics and Graphics Engine\Physics Library\RigidBody.cpp" />
+    <ClCompile Include="Uniform Grid Voxelization.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\AssetManager.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\FileManager.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\XMLDocument.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Asset Management\XMLNode.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Actor.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\AssetLoader.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Camera.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\CameraController.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Light.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Material.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\OpenGLProgram.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\RenderQueue.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\SceneManager.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\SkinnedMesh.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\StaticMesh.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Texture.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\Transform.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Components\VertexData.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\GraphicsLibrary.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleDrag.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleForce.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleGravity.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle Forces\ParticleSpring.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\Particle.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\ParticleEmitter.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Particle Library\ParticleLibrary.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Skeletal Animation\Armature.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Graphics Library\Skeletal Animation\Bone.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\MathLibrary.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\MathUtilities.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix2.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix3.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Matrices\Matrix4.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Quaternions\Quaternion.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector2.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector3.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Math Library\Vectors\Vector4.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Physics Library\PhysicsLibrary.h" />
+    <ClInclude Include="..\..\..\Physics and Graphics Engine\Physics Library\RigidBody.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

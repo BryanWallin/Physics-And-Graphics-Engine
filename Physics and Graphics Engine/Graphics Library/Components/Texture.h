@@ -18,7 +18,7 @@
 #include <string>
 #include <iostream>
 #include <Windows.h>
-#include <GL\glew.h>
+#include "..\..\..\Visual Studio Projects\Physics and Graphics Engine Testbed\Common\Headers\glew.h"
 #include <GL\gl.h>
 
 namespace GraphicsEngine

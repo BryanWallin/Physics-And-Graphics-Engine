@@ -393,7 +393,7 @@ bool AssetManager::loadCollada(std::string filePath)
                 
                 //Determining if the mesh is a skinned mesh or not.
                 XMLNode *controller;
-                XMLNode *skin;
+                XMLNode *skin = NULL;
                 XMLNode *library_controllers =
                     document.getRootNode()->getChild("library_controllers");
                 if(library_controllers->hasChild("controller"))

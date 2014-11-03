@@ -5,7 +5,7 @@ attribute vec3 normal;
 attribute vec2 textureCoordinate;
 
 uniform mat4 worldToEyeMatrix;
-uniform mat4 modelToWorldMatrix;
+uniform mat4 projectionMatrix;
 
 varying lowp vec4 colorVarying;
 varying vec2 textureCoordinateVarying;
@@ -15,5 +15,5 @@ void main()
     colorVarying = worldToEyeMatrix * position;
     textureCoordinateVarying = textureCoordinate;
     
-    gl_Position = worldToEyeMatrix * position;
+    gl_Position =  projectionMatrix * worldToEyeMatrix * position;
 }

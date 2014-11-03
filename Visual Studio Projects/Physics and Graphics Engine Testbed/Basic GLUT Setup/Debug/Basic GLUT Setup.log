@@ -1,18 +1,11 @@
-﻿Build started 9/22/2014 6:06:29 PM.
-     1>Project "C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Basic GLUT Setup\Basic GLUT Setup.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\\..\..\Physics and Graphics Engine\\" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Main.cpp
-         Main.cpp
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic glut setup\main.cpp(44): warning C4305: 'initializing' : truncation from 'double' to 'float'
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic glut setup\main.cpp(162): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic glut setup\main.cpp(162): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic glut setup\main.cpp(189): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\bryan\documents\graphics\physics-and-graphics-engine\visual studio projects\physics and graphics engine testbed\basic glut setup\main.cpp(189): warning C4244: 'argument' : conversion from 'float' to 'unsigned int', possible loss of data
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic GLUT Setup.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic GLUT Setup.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic GLUT Setup.lib" /MACHINE:X86 Debug\Main.obj
-         Basic GLUT Setup.vcxproj -> C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic GLUT Setup.exe
-     1>Done Building Project "C:\Users\Bryan\Documents\Graphics\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Basic GLUT Setup\Basic GLUT Setup.vcxproj" (Build target(s)).
+﻿Build started 11/2/2014 6:54:51 PM.
+     1>Project "C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Basic GLUT Setup\Basic GLUT Setup.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic GLUT Setup.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic GLUT Setup.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic GLUT Setup.lib" /MACHINE:X86 Debug\Main.obj
+         LINK : program database C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic GLUT Setup.pdb missing; performing full link
+         Basic GLUT Setup.vcxproj -> C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Debug\Basic GLUT Setup.exe
+     1>Done Building Project "C:\Users\wallin\Documents\GitHub\Physics-And-Graphics-Engine\Visual Studio Projects\Physics and Graphics Engine Testbed\Basic GLUT Setup\Basic GLUT Setup.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:00.58
+Time Elapsed 00:00:00.34

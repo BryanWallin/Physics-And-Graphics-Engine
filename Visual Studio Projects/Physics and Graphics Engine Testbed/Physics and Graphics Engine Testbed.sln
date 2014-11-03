@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Basic GLUT Setup", "Basic GLUT Setup\Basic GLUT Setup.vcxproj", "{8C949DE3-42B1-4B98-ADDD-A64E384AC8F6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Basic Skeletal Animation", "Basic Skeletal Animation\Basic Skeletal Animation.vcxproj", "{922F6E52-00DB-4571-BAB0-E95C73834B60}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Uniform Grid Voxelization", "Uniform Grid Voxelization\Uniform Grid Voxelization.vcxproj", "{11BDC4D0-7C6F-48A0-99E4-2E9B448FEBD1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{922F6E52-00DB-4571-BAB0-E95C73834B60}.Debug|Win32.Build.0 = Debug|Win32
 		{922F6E52-00DB-4571-BAB0-E95C73834B60}.Release|Win32.ActiveCfg = Release|Win32
 		{922F6E52-00DB-4571-BAB0-E95C73834B60}.Release|Win32.Build.0 = Release|Win32
+		{11BDC4D0-7C6F-48A0-99E4-2E9B448FEBD1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{11BDC4D0-7C6F-48A0-99E4-2E9B448FEBD1}.Debug|Win32.Build.0 = Debug|Win32
+		{11BDC4D0-7C6F-48A0-99E4-2E9B448FEBD1}.Release|Win32.ActiveCfg = Release|Win32
+		{11BDC4D0-7C6F-48A0-99E4-2E9B448FEBD1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
