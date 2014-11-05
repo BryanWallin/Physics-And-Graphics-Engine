@@ -1,4 +1,4 @@
-#version 420
+#version 430
 
 #define ATTRIB_POSITION     0
 #define ATTRIB_COLOR        1
@@ -13,13 +13,12 @@ layout (location = ATTRIB_NORMAL) in vec3 in_Normal;
 out vec3 vs_WorldPosition;
 out vec3 vs_WorldNormal;
 
-uniform mat4 ProjectionMatrix;
-uniform mat4 ModelMatrix;
-uniform mat4 ViewMatrix;
+uniform mat4 projectionMatrix;
+uniform mat4 modelMatrix;
 
 void main()
 {	
-	vs_WorldPosition = (ModelMatrix * vec4(in_Position, 1.0)).xyz;
-	vs_WorldNormal = (ModelMatrix * vec4(in_Normal, 0.0)).xyz;
-    gl_Position = ViewMatrix * ModelMatrix * vec4(in_Position, 1.0);
+	vs_WorldPosition = (modelMatrix * vec4(in_Position, 1.0)).xyz;
+	vs_WorldNormal = (modelMatrix * vec4(in_Normal, 0.0)).xyz;
+    gl_Position = modelMatrix * vec4(in_Position, 1.0);
 }

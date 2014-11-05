@@ -1,6 +1,4 @@
-#version 420
-
-#extension GL_ARB_shader_image_size : enable
+#version 430
 
 layout(triangles, invocations = 1) in;
 layout(triangle_strip, max_vertices = 3) out;
@@ -16,10 +14,9 @@ out mat3 gs_SwizzleMatrixInv;
 
 layout (binding = 0, rgba8) coherent uniform image3D volumeTexture;
 
-uniform mat4 ProjectionMatrix;
-uniform mat4 ViewMatrix;
-uniform float PixelDiagonal;
-uniform bool ConservativeRasterization;
+uniform mat4 projectionMatrix;
+uniform float pixelDiagonal;
+uniform bool conservativeRasterization;
 
 void expandTriangle(inout vec4 screenPos[3])
 {
@@ -52,9 +49,9 @@ void expandTriangle(inout vec4 screenPos[3])
 	edgeDist.y = dot(edgeNormal[1], screenPos[1].xy);
 	edgeDist.z = dot(edgeNormal[2], screenPos[2].xy);
 
-	screenPos[0].xy = screenPos[0].xy - PixelDiagonal * (edge[2] / dot(edge[2], edgeNormal[0]) + edge[0] / dot(edge[0], edgeNormal[2]));
-	screenPos[1].xy = screenPos[1].xy - PixelDiagonal * (edge[0] / dot(edge[0], edgeNormal[1]) + edge[1] / dot(edge[1], edgeNormal[0]));
-	screenPos[2].xy = screenPos[2].xy - PixelDiagonal * (edge[1] / dot(edge[1], edgeNormal[2]) + edge[2] / dot(edge[2], edgeNormal[1]));
+	screenPos[0].xy = screenPos[0].xy - pixelDiagonal * (edge[2] / dot(edge[2], edgeNormal[0]) + edge[0] / dot(edge[0], edgeNormal[2]));
+	screenPos[1].xy = screenPos[1].xy - pixelDiagonal * (edge[0] / dot(edge[0], edgeNormal[1]) + edge[1] / dot(edge[1], edgeNormal[0]));
+	screenPos[2].xy = screenPos[2].xy - pixelDiagonal * (edge[1] / dot(edge[1], edgeNormal[2]) + edge[2] / dot(edge[2], edgeNormal[1]));
 }
 
 void main()
@@ -101,9 +98,9 @@ void main()
 
     // Calculate screen coordinates for triangle.
 	vec4 screenPos[3];
-	screenPos[0] = ProjectionMatrix * vec4(swizzleMatrix * gl_in[0].gl_Position.xyz, 1.0);
-	screenPos[1] = ProjectionMatrix * vec4(swizzleMatrix * gl_in[1].gl_Position.xyz, 1.0);
-	screenPos[2] = ProjectionMatrix * vec4(swizzleMatrix * gl_in[2].gl_Position.xyz, 1.0);
+	screenPos[0] = projectionMatrix * vec4(swizzleMatrix * gl_in[0].gl_Position.xyz, 1.0);
+	screenPos[1] = projectionMatrix * vec4(swizzleMatrix * gl_in[1].gl_Position.xyz, 1.0);
+	screenPos[2] = projectionMatrix * vec4(swizzleMatrix * gl_in[2].gl_Position.xyz, 1.0);
     screenPos[0] /= screenPos[0].w;
     screenPos[1] /= screenPos[1].w;
     screenPos[2] /= screenPos[2].w;
@@ -111,11 +108,11 @@ void main()
     // Calculate screen space bounding box to be used for clipping in the fragment shader.
     gs_BBox.xy = min(screenPos[0].xy, min(screenPos[1].xy, screenPos[2].xy));
     gs_BBox.zw = max(screenPos[0].xy, max(screenPos[1].xy, screenPos[2].xy));
-    gs_BBox.xy -= vec2(PixelDiagonal);
-    gs_BBox.zw += vec2(PixelDiagonal);
+    gs_BBox.xy -= vec2(pixelDiagonal);
+    gs_BBox.zw += vec2(pixelDiagonal);
 
     // Expand triangle for conservative rasterization.
-    if (ConservativeRasterization)
+    if (conservativeRasterization)
     {
         expandTriangle(screenPos);
     }

@@ -56,14 +56,14 @@ float fov = 90;
 
 GLuint particleVertexArray, particleVertexBuffer;
 
-OpenGLProgram *diffuseProgram, *defaultProgram, *voxelizationProgram;
+OpenGLProgram *diffuseProgram, *defaultProgram, *voxelizationProgram, *voxelRenderProgram;
 Material *floorMaterial, *monkeyMaterial;
 Camera *camera;
 AssetManager *manager;
 
 Transform::TransformSpace space = Transform::Local;
 
-StaticMesh *floorMesh, *monkeyMesh;
+StaticMesh *floorMesh, *monkeyMesh, *bunnyMesh;
 Texture *floorTexture;
 GLuint floorTexturePointer, voxelTexture, voxelFBO;
 
@@ -84,6 +84,10 @@ bool loadShaders(std::string resourcesDirectory)
 		resourcesDirectory + "VoxelizationShader.vsh",
 		resourcesDirectory + "VoxelizationShader.gsh",
 		resourcesDirectory + "VoxelizationShader.fsh");
+
+	voxelRenderProgram = new OpenGLProgram(
+		resourcesDirectory + "VoxelRayTraceVolume.vsh",
+		resourcesDirectory + "VoxelRayTraceVolume.fsh");
 
 	//Diffuse program setup.
 	diffuseProgram = new OpenGLProgram(resourcesDirectory + "Diffuse.vsh",
@@ -111,6 +115,7 @@ void setupGL(std::string resourcesDirectory)
 	//StaticMesh Creation.
 	manager = new AssetManager();
 	manager->loadFile(resourcesDirectory + "Monkey.obj");
+	manager->loadFile(resourcesDirectory + "Bunny.obj");
 	manager->loadFile(resourcesDirectory + "Floor.dae");
 	floorMesh = manager->getStaticMesh("Floor");
 	floorMesh->setMaterial(floorMaterial);
@@ -118,13 +123,13 @@ void setupGL(std::string resourcesDirectory)
 	monkeyMesh = manager->getStaticMesh("\\Monkey.obj");
 	monkeyMesh->setMaterial(monkeyMaterial);
 
+	bunnyMesh = manager->getStaticMesh("\\Bunny.obj");
+	bunnyMesh->setMaterial(monkeyMaterial);
+
 	//Camera Creation.
 	camera = new Camera("MainCamera");
-	camera->getTransform()->setPosition(Vector3(0, 5, 10));
+	camera->getTransform()->setPosition(Vector3(0, 0, 2));
 
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	floorTexture = new Texture(resourcesDirectory + "ConcreteTileFloor.tga");
 	floorTexture->setTextureType(DiffuseTexture);
 
@@ -152,6 +157,22 @@ void setupGL(std::string resourcesDirectory)
 		GL_BGRA, GL_UNSIGNED_BYTE, floorTexture->getData());
 	glGenerateMipmap(GL_TEXTURE_2D);
 
+	GLubyte *imgPointer = (GLubyte *)malloc(floorTexture->getHeight() * 
+		floorTexture->getWidth()*4);
+	for (int i = 0; i < floorTexture->getHeight() *
+		floorTexture->getWidth(); i++)
+		imgPointer[i] = 0;
+
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_BGRA, GL_UNSIGNED_BYTE, imgPointer);
+	for (int i = 0; i < floorTexture->getHeight() *
+		floorTexture->getWidth(); i++)
+	{
+		//if (imgPointer[i] > 0)
+			//std::cout << "Voxel at (" << i << ") is " << (int)imgPointer[i] << ".\n";
+	}
+	free(imgPointer);
+
+
 	//Setting the texture parameters.
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 16);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -178,31 +199,62 @@ void voxelizeScene()
 	glDisable(GL_DEPTH_TEST);
 	glViewport(0, 0, 128, 128);
 
+	GLenum err;
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "GL Error: " << err << "\n";
+	}
+
 	Matrix4 projection = Matrix4::Ortho(0.0f, 128.0f, 0.0f, 128.0f, 0.0f,
 		-128.0f);
-	float pixelDiagonal = sqrt(2.0f) / 128.0f;
-
 	Matrix4 floorModelView = Matrix4::Scale(128, 128, 128) * 
 		Matrix4::Translate(0.5f, 0.5f, 0.5f) * 
 		Matrix4::Scale(0.5f, 0.5f, 0.5f);
-	
 	Matrix4 monkeyModelView = floorModelView *
 		Matrix4::RotationX(0) * Matrix4::RotationY(0);
 
+	float pixelDiagonal = sqrt(2.0f) / 128.0f;
 
 	glUseProgram(voxelizationProgram->getProgramID());
+
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "GL Error: " << err << "\n";
+	}
 
 	//Uploading shader uniforms.
 	glUniform1f(voxelizationProgram->getUniformID("pixelDiagonal"), 
 		pixelDiagonal);
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "GL Error: " << err << "\n";
+	}
 	glUniform1i(voxelizationProgram->getUniformID("conservativeRasterization"), 
 		false);
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "GL Error: " << err << "\n";
+	}
 	glUniform1f(voxelizationProgram->getUniformID("colorCode"),
 		false);
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "GL Error: " << err << "\n";
+	}
 	glUniformMatrix4fv(voxelizationProgram->getUniformID("projectionMatrix"),
 		1, GL_FALSE, projection);
-	glUniformMatrix4fv(voxelizationProgram->getUniformID("worldToEyeMatrix"),
+	glUniformMatrix4fv(voxelizationProgram->getUniformID("modelMatrix"),
 		1, GL_FALSE, floorModelView);
+	glUniform4f(glGetUniformLocation(voxelizationProgram->getProgramID(), "LightPosition"), 0.0f, 0.0f, -1.0f, 0.0f);
+	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), "LightAmbient"), 0.2f, 0.2f, 0.2f);
+	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), "LightDiffuse"), 0.8f, 0.8f, 0.8f);
+	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), "MaterialKa"), 1.0f, 1.0f, 1.0f);
+	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), "MaterialKd"), 1.0f, 1.0f, 1.0f);
+
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "GL Error: " << err << "\n";
+	}
+
+	glBindImageTexture(0, voxelTexture, 0, GL_TRUE, 0, GL_READ_WRITE, GL_RGBA8);
+
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "GL Error: " << err << "\n";
+	}
 
 	//Drawing items.
 	glBindVertexArray(floorMesh->getVertexData()->getVertexDataPointer());
@@ -211,13 +263,67 @@ void voxelizeScene()
 	glUniformMatrix4fv(voxelizationProgram->getUniformID("worldToEyeMatrix"),
 		1, GL_FALSE, monkeyModelView);
 
-	glBindVertexArray(monkeyMesh->getVertexData()->getVertexDataPointer());
-	glDrawArrays(GL_TRIANGLES, 0, monkeyMesh->getVertexData()->getVertexCount());
+	glBindVertexArray(bunnyMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, bunnyMesh->getVertexData()->getVertexCount());
 
 	//Re-enabling depth writes, color writes, and depth testing.
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	glDepthMask(GL_TRUE);
 	glEnable(GL_DEPTH_TEST);
+}
+
+void renderVoxels()
+{
+	// Setup and clear viewport.
+	//glViewport(0, 0, windowWidth, windowHeight);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Calculate transformation matrices.
+	Matrix4 projection = Matrix4::Perspective(60.0f, windowWidth / 
+		(float)windowHeight, 0.001f, 10.0f);
+
+	Matrix4 modelview = Matrix4::Translate(0.0f, 0.0f, -2.0f)//-cameraZoom)
+		* Matrix4::Scale(1.0f / 128.0f, 1.0f / 128.0f, 1.0f / 128.0f)
+		* Matrix4::Translate(-128.0f * 0.5f, -128.0f * 0.5f, -128.0f * 0.5f);
+
+	Matrix4 modelViewProjectionInverse = modelview.invert();
+
+	// Bind shader.
+	glUseProgram(voxelRenderProgram->getProgramID());
+	glUniform1i(glGetUniformLocation(voxelRenderProgram->getProgramID(), "VolumeTexture"), 0);
+	glUniformMatrix4fv(glGetUniformLocation(voxelRenderProgram->getProgramID(), "ModelViewProjectionInverse"), 1, GL_FALSE, modelViewProjectionInverse);
+	glUniform3f(glGetUniformLocation(voxelRenderProgram->getProgramID(), "VolumeDimensions"), 128.0f, 128.0f, 128.0f);
+	glUniform1f(glGetUniformLocation(voxelRenderProgram->getProgramID(), "StepSize"), 0.9f);
+
+	// Bind texture.
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_3D, voxelTexture);
+
+	// Render fullscreen quad.
+	glBegin(GL_QUADS);
+	glVertex3f(-1.0f, -1.0f, 0.0f);
+	glVertex3f(1.0f, -1.0f, 0.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(-1.0f, 1.0f, 0.0f);
+	glEnd();
+
+	// Undo state changes.
+	glBindTexture(GL_TEXTURE_3D, 0);
+	glUseProgram(0);
+
+	// Render bounding box.
+	if (true)
+	{
+		glDisable(GL_DEPTH_TEST);
+		glMatrixMode(GL_PROJECTION); glLoadMatrixf(projection);
+		glMatrixMode(GL_MODELVIEW);
+		glLoadMatrixf(modelview);
+		glTranslatef(128.0f * 0.5f, 128.0f * 0.5f, 128.0f * 0.5f);
+
+		glColor4f(1, 1, 1, 1);
+		glutWireCube(128.0f);
+		glEnable(GL_DEPTH_TEST);
+	}
 }
 
 //This method displays the objects sent to the graphics card.
@@ -227,7 +333,7 @@ void display()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//Settinng the viewport.
-	//glViewport(0, 0, windowWidth, windowHeight);
+	glViewport(0, 0, windowWidth, windowHeight);
 
 	//Drawing the floor.
 	glUseProgram(floorMesh->getMaterial()->getProgram()->getProgramID());
@@ -246,16 +352,18 @@ void display()
 	glBindVertexArray(floorMesh->getVertexData()->getVertexDataPointer());
 	glDrawArrays(GL_TRIANGLES, 0, floorMesh->getVertexData()->getVertexCount());
 
-	glUseProgram(monkeyMesh->getMaterial()->getProgram()->getProgramID());
+	glUseProgram(bunnyMesh->getMaterial()->getProgram()->getProgramID());
 
 	glUniformMatrix4fv(diffuseProgram->getUniformID("projectionMatrix"),
 		1, GL_FALSE, _modelViewProjectionMatrixNew);
 
 	glUniformMatrix4fv(diffuseProgram->getUniformID("worldToEyeMatrix"),
-		1, GL_FALSE, monkeyMesh->getTransform()->getTransform());
+		1, GL_FALSE, bunnyMesh->getTransform()->getTransform());
 
-	glBindVertexArray(monkeyMesh->getVertexData()->getVertexDataPointer());
-	glDrawArrays(GL_TRIANGLES, 0, monkeyMesh->getVertexData()->getVertexCount());
+	glBindVertexArray(bunnyMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, bunnyMesh->getVertexData()->getVertexCount());
+
+	renderVoxels();
 
 	//Swapping the buffers now that the drawing is complete.
 	glutSwapBuffers();
@@ -344,15 +452,25 @@ void reshape(int width, int height)
 void update()
 {
 	float aspect = (float)windowWidth / (float)windowHeight;
-	Matrix4 projectionMatrixNew = Matrix4::Perspective(fov, aspect, 0.1f, 200.0f);
+	Matrix4 projectionMatrixNew = Matrix4::Perspective(60.0f, aspect, 0.001f, 10.0f);
 
 	Matrix4 modelViewMatrixNew = camera->getTransform()->getInverseTransform();
 
-	_normalMatrixNew = Matrix3(modelViewMatrixNew).invert().transpose();
-
 	_modelViewProjectionMatrixNew = projectionMatrixNew * modelViewMatrixNew;
 
-	Matrix4 rotate = projectionMatrixNew * Matrix4::Translate(0, -1.75, 0);
+	//Matrix4 rotate = projectionMatrixNew * Matrix4::Translate(0, -1.75, 0);
+
+
+
+
+	//Matrix4 projection = Matrix4::Perspective(60.0f,(float) windowWidth /
+	//	(float)windowHeight, 0.001f, 10.0f);
+
+	//Matrix4 modelview = Matrix4::Translate(0.0f, 0.0f, -2.0f)//-cameraZoom)
+	//	* Matrix4::Scale(1.0f / 128.0f, 1.0f / 128.0f, 1.0f / 128.0f)
+	//	* Matrix4::Translate(-128.0f * 0.5f, -128.0f * 0.5f, -128.0f * 0.5f);
+
+	//_modelViewProjectionMatrixNew = projection;
 
 	//emitter->update(1.0f / 30.0f, rotate);
 	//glBindBuffer(GL_ARRAY_BUFFER, particleVertexBuffer);
@@ -365,14 +483,36 @@ void update()
 //to update the program state.
 void timer(int milliseconds)
 {
+	glBindTexture(GL_TEXTURE_3D, voxelTexture);
+	GLubyte *imgPointer = (GLubyte *)malloc(128 * 128 * 128 * 4);
+	for (int i = 0; i < 128 * 128 * 128 * 4; i++)
+		imgPointer[i] = 0;
+
+	glGetTexImage(GL_TEXTURE_3D, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgPointer);
+	for (int i = 0; i < 128*128*128; i++)
+	{
+		if (imgPointer[i] > 0)
+			std::cout << "Voxel at (" << i << ") is " << (int) imgPointer[i] << ".\n";
+	}
+	free(imgPointer);
+
+	GLenum err;
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "GL Error: " << err << "\n";
+	}
+
 	//Updating.
 	update();
+
+	//Clearing and voxelizing.
+	//clearVoxels();
+	voxelizeScene();
 
 	glutPostRedisplay();
 	glutTimerFunc(refreshRateInMillis, timer, refreshRateInMillis);
 }
 
-//This is the main method, where program execution starts.
+//This is the main method, where program execution starts.xzc
 int main(int argc, char **argv)
 {
 	//Setting up the GLUT window.
@@ -385,7 +525,14 @@ int main(int argc, char **argv)
 
 	//Setting up GLEW.
 	glewExperimental = GL_TRUE;
-	glewInit();
+	GLenum err = glewInit();
+	if (err != GLEW_OK)
+	{
+		//Problem: glewInit failed, something is seriously wrong.
+		std::cout << "glewInit() failed, aborting.\n";
+	}
+
+	printf("OpenGL version: %s\n", (char*)glGetString(GL_VERSION));
 
 	std::string path = argv[0];
 	std::string directory = path.substr(0, path.find_last_of('\\'));

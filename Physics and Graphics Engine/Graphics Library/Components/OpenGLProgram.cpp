@@ -316,8 +316,11 @@ bool OpenGLProgram::createProgram(std::string vertexShaderFilePath,
 	glShaderSource(fragmentShader, 1, &fragmentShaderContentsPointer, NULL);
 
 	//Compiling the program.
-	if (!compileShader(vertexShader) || !compileShader(geometryShader) ||
-		!compileShader(fragmentShader))
+	if(!compileShader(vertexShader))
+		return false;
+	if(!compileShader(geometryShader))
+		return false;
+	if(!compileShader(fragmentShader))
 		return false;
 
 	//Attaching the vertex and fragment shaders to the program.
