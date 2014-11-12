@@ -1,4 +1,4 @@
-#version 330
+#version 420
 
 in vec2 vs_RayCoordinates;
 
@@ -7,6 +7,7 @@ layout(location = 0) out vec4 FragColor;
 uniform sampler3D VolumeTexture;
 uniform mat4 ModelViewProjectionInverse;
 uniform vec3 VolumeDimensions;
+uniform float MipmapLevel;
 uniform float StepSize;
 uniform float AlphaScale;
 uniform float AlphaBias;
@@ -78,7 +79,7 @@ void main()
 		{
 			// Sample 3D texture at current position.
 			vec3 texCoords = voxelPos / VolumeDimensions;
-			vec4 color = texture(VolumeTexture, texCoords);
+			vec4 color = pow(3, MipmapLevel) * textureLod(VolumeTexture, texCoords, MipmapLevel);
 
 			// Exit loop if a single sample has an alpha value greater than 0.
 			if (color.a > 0.0)

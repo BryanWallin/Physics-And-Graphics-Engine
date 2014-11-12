@@ -163,9 +163,7 @@ bool VertexData::attachToProgram(OpenGLProgram *program)
 {
     //Binding the vertex array and buffer.
     glBindVertexArray(m_VertexArrayPointer);
-    glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferPointer);
-    glBufferData(GL_ARRAY_BUFFER, m_DataCount * sizeof(float),
-                 m_Data, GL_DYNAMIC_DRAW);
+	uploadData();
     
     if(!(m_VertexDataTypeData[Position] == NULL))
     {
@@ -257,9 +255,9 @@ bool VertexData::finalizeVertexData()
 //This method uploads the data to the GPU.
 void VertexData::uploadData()
 {
-    glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferPointer);
-    glBufferData(GL_ARRAY_BUFFER, m_DataCount * sizeof(float),
-                 m_Data, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, m_VertexBufferPointer);
+	glBufferData(GL_ARRAY_BUFFER, m_DataCount * sizeof(float),
+		m_Data, GL_STATIC_DRAW);
 }
     
 //============================================================================//

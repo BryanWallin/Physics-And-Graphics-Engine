@@ -682,8 +682,8 @@ Matrix4 Matrix4::invert() const
     float determinant = this->determinant();
     
     //If the determinant is 0, then return the identity matrix.
-    if(-0.000001f <= determinant && determinant <= 0.000001f)
-        return Matrix4::Identity();
+    //if(-0.000001f <= determinant && determinant <= 0.000001f)
+    //    return Matrix4::Identity();
     
     float m00 = m_Matrix[1][3] * (m_Matrix[2][1] * m_Matrix[3][2] -
                                   m_Matrix[2][2] * m_Matrix[3][1]) +
@@ -782,10 +782,10 @@ Matrix4 Matrix4::invert() const
                 m_Matrix[0][0] * (m_Matrix[1][1] * m_Matrix[2][2] -
                                   m_Matrix[1][2] * m_Matrix[2][1]);
     
-    return Matrix4(m00, m01, m02, m03,
+	return Matrix4(m00, m01, m02, m03,
                    m10, m11, m12, m13,
                    m20, m21, m22, m23,
-                   m30, m31, m32, m33);
+                   m30, m31, m32, m33) / determinant;
 }
 
 //=======================Printing and Debugging Methods=======================//

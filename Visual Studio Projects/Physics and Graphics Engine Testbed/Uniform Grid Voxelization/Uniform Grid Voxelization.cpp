@@ -8,6 +8,9 @@
 #include "..\Common\Headers\freeglut.h"
 #include <GL\gl.h>
 #include <cmath>
+#include <ostream>
+#include <glm\glm.hpp>
+#include <glm\ext.hpp>
 
 #define CRTDBG_MAP_ALLOC
 #include <stdlib.h>
@@ -45,39 +48,26 @@ int previousX, previousY;
 bool leftMouseDown = false;
 bool rightMouseDown = false;
 bool isPaused = false;
-
-float currentTime = 0;
-float refreshRateInMillis = 5;
-float motionBlurAmount = 0.01;
-
-int currentPosition = 0;
-
+float refreshRateInMillis = 1;
 float fov = 90;
+float rotationX = 0.0f;
+float rotationY = 0.0f;
+int mipmapLevel = 0;
 
-GLuint particleVertexArray, particleVertexBuffer;
+bool conservativeRasterization = false;
 
-OpenGLProgram *diffuseProgram, *defaultProgram, *voxelizationProgram, *voxelRenderProgram;
-Material *floorMaterial, *monkeyMaterial;
+OpenGLProgram *diffuseProgram, *voxelizationProgram, *voxelRenderProgram;
+Material *diffuseMaterial, *voxelMaterial;
 Camera *camera;
 AssetManager *manager;
 
-Transform::TransformSpace space = Transform::Local;
-
-StaticMesh *floorMesh, *monkeyMesh, *bunnyMesh;
-Texture *floorTexture;
-GLuint floorTexturePointer, voxelTexture, voxelFBO;
-
-int texUnit = 0;
-
-float rotation = 0.0f;
+StaticMesh *floorMesh, *leftWallMesh, *backWallMesh, *rightWallMesh, 
+*ceilingMesh, *backBallMesh, *frontBallMesh;
+GLuint voxelTexture, voxelFBO;
 
 Matrix4 _modelViewProjectionMatrixNew;
-Matrix3 _normalMatrixNew;
-int vertexCount, particleVertexCount;
 
-std::clock_t updateClock;
-
-bool loadShaders(std::string resourcesDirectory)
+void setupGL(std::string resourcesDirectory)
 {
 	//Voxelization program setup.
 	voxelizationProgram = new OpenGLProgram(
@@ -90,58 +80,57 @@ bool loadShaders(std::string resourcesDirectory)
 		resourcesDirectory + "VoxelRayTraceVolume.fsh");
 
 	//Diffuse program setup.
-	diffuseProgram = new OpenGLProgram(resourcesDirectory + "Diffuse.vsh",
-		resourcesDirectory + "Diffuse.fsh");
-	
-	//Default program setup.
-	defaultProgram = new OpenGLProgram(resourcesDirectory + "DefaultShader.vsh",
+	diffuseProgram = new OpenGLProgram(resourcesDirectory + "DefaultShader.vsh",
 		resourcesDirectory + "DefaultShader.fsh");
 
-	//Floor material setup.
-	floorMaterial = new Material();
-	floorMaterial->setProgram(diffuseProgram);
-	floorMaterial->setTexture("diffuse", floorTexture);
+	diffuseMaterial = new Material();
+	diffuseMaterial->setProgram(diffuseProgram);
 
-	monkeyMaterial = new Material();
-	monkeyMaterial->setProgram(defaultProgram);
-
-	return true;
-}
-
-void setupGL(std::string resourcesDirectory)
-{
-	using namespace GraphicsEngine;
+	voxelMaterial = new Material();
+	voxelMaterial->setProgram(voxelizationProgram);
 
 	//StaticMesh Creation.
 	manager = new AssetManager();
-	manager->loadFile(resourcesDirectory + "Monkey.obj");
-	manager->loadFile(resourcesDirectory + "Bunny.obj");
-	manager->loadFile(resourcesDirectory + "Floor.dae");
-	floorMesh = manager->getStaticMesh("Floor");
-	floorMesh->setMaterial(floorMaterial);
+	manager->loadFile(resourcesDirectory + "CornellBox_Floor.obj");
+	manager->loadFile(resourcesDirectory + "CornellBox_LeftWall.obj");
+	manager->loadFile(resourcesDirectory + "CornellBox_BackWall.obj");
+	manager->loadFile(resourcesDirectory + "CornellBox_RightWall.obj");
+	manager->loadFile(resourcesDirectory + "CornellBox_Ceiling.obj");
+	manager->loadFile(resourcesDirectory + "CornellBox_BackBall.obj");
+	manager->loadFile(resourcesDirectory + "CornellBox_FrontBall.obj");
 
-	monkeyMesh = manager->getStaticMesh("\\Monkey.obj");
-	monkeyMesh->setMaterial(monkeyMaterial);
-
-	bunnyMesh = manager->getStaticMesh("\\Bunny.obj");
-	bunnyMesh->setMaterial(monkeyMaterial);
+	floorMesh = manager->getStaticMesh("CornellBox_Floor");
+	floorMesh->setMaterial(voxelMaterial);
+	leftWallMesh = manager->getStaticMesh("CornellBox_LeftWall");
+	leftWallMesh->setMaterial(voxelMaterial);
+	backWallMesh = manager->getStaticMesh("CornellBox_BackWall");
+	backWallMesh->setMaterial(voxelMaterial);
+	rightWallMesh = manager->getStaticMesh("CornellBox_RightWall");
+	rightWallMesh->setMaterial(voxelMaterial);
+	ceilingMesh = manager->getStaticMesh("CornellBox_Ceiling");
+	ceilingMesh->setMaterial(voxelMaterial);
+	backBallMesh = manager->getStaticMesh("CornellBox_BackBall");
+	backBallMesh->setMaterial(voxelMaterial);
+	frontBallMesh = manager->getStaticMesh("CornellBox_FrontBall");
+	frontBallMesh->setMaterial(voxelMaterial);
 
 	//Camera Creation.
 	camera = new Camera("MainCamera");
 	camera->getTransform()->setPosition(Vector3(0, 0, 2));
 
-	floorTexture = new Texture(resourcesDirectory + "ConcreteTileFloor.tga");
-	floorTexture->setTextureType(DiffuseTexture);
-
 	//Creating voxel texture.
 	glGenTextures(1, &voxelTexture);
 	glBindTexture(GL_TEXTURE_3D, voxelTexture);
-	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, 128, 128, 128, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, 128, 128, 128, 0, GL_RGBA, 
+		GL_UNSIGNED_BYTE, 0);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_3D, GL_GENERATE_MIPMAP, GL_TRUE);
 	glBindTexture(GL_TEXTURE_3D, 0);
 
 	// Create an fbo for clearing the 3D texture.
@@ -150,29 +139,6 @@ void setupGL(std::string resourcesDirectory)
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, voxelTexture, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	glGenTextures(1, &floorTexturePointer);
-	glBindTexture(GL_TEXTURE_2D, floorTexturePointer);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA,
-		floorTexture->getWidth(), floorTexture->getHeight(), 0,
-		GL_BGRA, GL_UNSIGNED_BYTE, floorTexture->getData());
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	GLubyte *imgPointer = (GLubyte *)malloc(floorTexture->getHeight() * 
-		floorTexture->getWidth()*4);
-	for (int i = 0; i < floorTexture->getHeight() *
-		floorTexture->getWidth(); i++)
-		imgPointer[i] = 0;
-
-	glGetTexImage(GL_TEXTURE_2D, 0, GL_BGRA, GL_UNSIGNED_BYTE, imgPointer);
-	for (int i = 0; i < floorTexture->getHeight() *
-		floorTexture->getWidth(); i++)
-	{
-		//if (imgPointer[i] > 0)
-			//std::cout << "Voxel at (" << i << ") is " << (int)imgPointer[i] << ".\n";
-	}
-	free(imgPointer);
-
-
 	//Setting the texture parameters.
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, 16);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -180,6 +146,10 @@ void setupGL(std::string resourcesDirectory)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
 		GL_LINEAR_MIPMAP_LINEAR);
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void clearVoxels()
@@ -199,72 +169,65 @@ void voxelizeScene()
 	glDisable(GL_DEPTH_TEST);
 	glViewport(0, 0, 128, 128);
 
-	GLenum err;
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "GL Error: " << err << "\n";
-	}
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_3D, voxelTexture);
 
 	Matrix4 projection = Matrix4::Ortho(0.0f, 128.0f, 0.0f, 128.0f, 0.0f,
 		-128.0f);
-	Matrix4 floorModelView = Matrix4::Scale(128, 128, 128) * 
-		Matrix4::Translate(0.5f, 0.5f, 0.5f) * 
+	Matrix4 voxelViewModel = Matrix4::Scale(128, 128, 128) *
+		Matrix4::Translate(0.5f, 0.5f, 0.5f) *
 		Matrix4::Scale(0.5f, 0.5f, 0.5f);
-	Matrix4 monkeyModelView = floorModelView *
-		Matrix4::RotationX(0) * Matrix4::RotationY(0);
 
 	float pixelDiagonal = sqrt(2.0f) / 128.0f;
 
 	glUseProgram(voxelizationProgram->getProgramID());
 
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "GL Error: " << err << "\n";
-	}
-
 	//Uploading shader uniforms.
 	glUniform1f(voxelizationProgram->getUniformID("pixelDiagonal"), 
 		pixelDiagonal);
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "GL Error: " << err << "\n";
-	}
 	glUniform1i(voxelizationProgram->getUniformID("conservativeRasterization"), 
-		false);
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "GL Error: " << err << "\n";
-	}
+		conservativeRasterization);
 	glUniform1f(voxelizationProgram->getUniformID("colorCode"),
-		false);
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "GL Error: " << err << "\n";
-	}
+		true);
 	glUniformMatrix4fv(voxelizationProgram->getUniformID("projectionMatrix"),
 		1, GL_FALSE, projection);
 	glUniformMatrix4fv(voxelizationProgram->getUniformID("modelMatrix"),
-		1, GL_FALSE, floorModelView);
-	glUniform4f(glGetUniformLocation(voxelizationProgram->getProgramID(), "LightPosition"), 0.0f, 0.0f, -1.0f, 0.0f);
-	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), "LightAmbient"), 0.2f, 0.2f, 0.2f);
-	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), "LightDiffuse"), 0.8f, 0.8f, 0.8f);
-	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), "MaterialKa"), 1.0f, 1.0f, 1.0f);
-	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), "MaterialKd"), 1.0f, 1.0f, 1.0f);
-
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "GL Error: " << err << "\n";
-	}
-
+		1, GL_FALSE, voxelViewModel);
+	glUniform4f(glGetUniformLocation(voxelizationProgram->getProgramID(), 
+		"LightPosition"), 0.0f, 0.0f, -1.0f, 0.0f);
+	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), 
+		"LightAmbient"), 0.2f, 0.2f, 0.2f);
+	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), 
+		"LightDiffuse"), 0.8f, 0.8f, 0.8f);
+	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), 
+		"MaterialKa"), 1.0f, 1.0f, 1.0f);
+	glUniform3f(glGetUniformLocation(voxelizationProgram->getProgramID(), 
+		"MaterialKd"), 1.0f, 1.0f, 1.0f);
 	glBindImageTexture(0, voxelTexture, 0, GL_TRUE, 0, GL_READ_WRITE, GL_RGBA8);
-
-	while ((err = glGetError()) != GL_NO_ERROR) {
-		std::cout << "GL Error: " << err << "\n";
-	}
 
 	//Drawing items.
 	glBindVertexArray(floorMesh->getVertexData()->getVertexDataPointer());
 	glDrawArrays(GL_TRIANGLES, 0, floorMesh->getVertexData()->getVertexCount());
+	glBindVertexArray(leftWallMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, leftWallMesh->getVertexData()->getVertexCount());
+	glBindVertexArray(backWallMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, backWallMesh->getVertexData()->getVertexCount());
+	glBindVertexArray(rightWallMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, rightWallMesh->getVertexData()->getVertexCount());
+	glBindVertexArray(ceilingMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, ceilingMesh->getVertexData()->getVertexCount());
+	glBindVertexArray(backBallMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, backBallMesh->getVertexData()->getVertexCount());
+	glBindVertexArray(frontBallMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, frontBallMesh->getVertexData()->getVertexCount());
 
-	glUniformMatrix4fv(voxelizationProgram->getUniformID("worldToEyeMatrix"),
-		1, GL_FALSE, monkeyModelView);
 
-	glBindVertexArray(bunnyMesh->getVertexData()->getVertexDataPointer());
-	glDrawArrays(GL_TRIANGLES, 0, bunnyMesh->getVertexData()->getVertexCount());
+	glGenerateMipmap(GL_TEXTURE_3D);
+	GLenum err;
+	while ((err = glGetError()) != GL_NO_ERROR) {
+		std::cout << "GL Error: " << err << "\n";
+	}
+
 
 	//Re-enabling depth writes, color writes, and depth testing.
 	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
@@ -275,25 +238,35 @@ void voxelizeScene()
 void renderVoxels()
 {
 	// Setup and clear viewport.
-	//glViewport(0, 0, windowWidth, windowHeight);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glViewport(0, 0, windowWidth, windowHeight);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Calculate transformation matrices.
-	Matrix4 projection = Matrix4::Perspective(60.0f, windowWidth / 
+	//Calculate transformation matrices.
+	Matrix4 projectionMe = Matrix4::Perspective(60.0f, windowWidth /
 		(float)windowHeight, 0.001f, 10.0f);
 
-	Matrix4 modelview = Matrix4::Translate(0.0f, 0.0f, -2.0f)//-cameraZoom)
+	Matrix4 modelviewMe = Matrix4::Translate(0.0f, 0.0f, -2.0f)
 		* Matrix4::Scale(1.0f / 128.0f, 1.0f / 128.0f, 1.0f / 128.0f)
 		* Matrix4::Translate(-128.0f * 0.5f, -128.0f * 0.5f, -128.0f * 0.5f);
 
-	Matrix4 modelViewProjectionInverse = modelview.invert();
+	Matrix4 modelViewProjectionMe = (projectionMe * modelviewMe);
+	Matrix4 modelViewProjectionInverseMe = (projectionMe * modelviewMe).invert();
 
 	// Bind shader.
 	glUseProgram(voxelRenderProgram->getProgramID());
-	glUniform1i(glGetUniformLocation(voxelRenderProgram->getProgramID(), "VolumeTexture"), 0);
-	glUniformMatrix4fv(glGetUniformLocation(voxelRenderProgram->getProgramID(), "ModelViewProjectionInverse"), 1, GL_FALSE, modelViewProjectionInverse);
-	glUniform3f(glGetUniformLocation(voxelRenderProgram->getProgramID(), "VolumeDimensions"), 128.0f, 128.0f, 128.0f);
-	glUniform1f(glGetUniformLocation(voxelRenderProgram->getProgramID(), "StepSize"), 0.9f);
+	glUniform1i(glGetUniformLocation(voxelRenderProgram->getProgramID(),
+		"VolumeTexture"), 0);
+
+	GLuint a = glGetUniformLocation(voxelRenderProgram->getProgramID(),
+		"MipmapLevel");
+	glUniformMatrix4fv(glGetUniformLocation(voxelRenderProgram->getProgramID(),
+		"ModelViewProjectionInverse"), 1, GL_FALSE, modelViewProjectionInverseMe);
+	glUniform3f(glGetUniformLocation(voxelRenderProgram->getProgramID(),
+		"VolumeDimensions"), 128.0f, 128.0f, 128.0f);
+	glUniform1f(glGetUniformLocation(voxelRenderProgram->getProgramID(),
+		"StepSize"), 0.9f);
+	glUniform1f(glGetUniformLocation(voxelRenderProgram->getProgramID(),
+		"MipmapLevel"), mipmapLevel);
 
 	// Bind texture.
 	glActiveTexture(GL_TEXTURE0);
@@ -310,59 +283,16 @@ void renderVoxels()
 	// Undo state changes.
 	glBindTexture(GL_TEXTURE_3D, 0);
 	glUseProgram(0);
-
-	// Render bounding box.
-	if (true)
-	{
-		glDisable(GL_DEPTH_TEST);
-		glMatrixMode(GL_PROJECTION); glLoadMatrixf(projection);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf(modelview);
-		glTranslatef(128.0f * 0.5f, 128.0f * 0.5f, 128.0f * 0.5f);
-
-		glColor4f(1, 1, 1, 1);
-		glutWireCube(128.0f);
-		glEnable(GL_DEPTH_TEST);
-	}
 }
 
 //This method displays the objects sent to the graphics card.
 void display()
 {
-	//Clearing the scene.
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//Clearing the voxels and generating the new voxel structure.
+	clearVoxels();
+	voxelizeScene();
 
-	//Settinng the viewport.
-	glViewport(0, 0, windowWidth, windowHeight);
-
-	//Drawing the floor.
-	glUseProgram(floorMesh->getMaterial()->getProgram()->getProgramID());
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, floorTexturePointer);
-	glUniform1i(glGetUniformLocation(diffuseProgram->getProgramID(),
-		"diffuse"), 0);
-
-	glUniformMatrix4fv(diffuseProgram->getUniformID("projectionMatrix"),
-		1, GL_FALSE, _modelViewProjectionMatrixNew);
-
-	glUniformMatrix4fv(diffuseProgram->getUniformID("worldToEyeMatrix"),
-		1, GL_FALSE, floorMesh->getTransform()->getTransform());
-
-	glBindVertexArray(floorMesh->getVertexData()->getVertexDataPointer());
-	glDrawArrays(GL_TRIANGLES, 0, floorMesh->getVertexData()->getVertexCount());
-
-	glUseProgram(bunnyMesh->getMaterial()->getProgram()->getProgramID());
-
-	glUniformMatrix4fv(diffuseProgram->getUniformID("projectionMatrix"),
-		1, GL_FALSE, _modelViewProjectionMatrixNew);
-
-	glUniformMatrix4fv(diffuseProgram->getUniformID("worldToEyeMatrix"),
-		1, GL_FALSE, bunnyMesh->getTransform()->getTransform());
-
-	glBindVertexArray(bunnyMesh->getVertexData()->getVertexDataPointer());
-	glDrawArrays(GL_TRIANGLES, 0, bunnyMesh->getVertexData()->getVertexCount());
-
+	//Rendering the voxels.
 	renderVoxels();
 
 	//Swapping the buffers now that the drawing is complete.
@@ -373,10 +303,18 @@ void display()
 void keysDown(unsigned char key, int x, int y)
 {
 	if (key == 'q')
-	{
-		_CrtDumpMemoryLeaks();
 		glutLeaveMainLoop();
-	}
+	if (key == 'c')
+		conservativeRasterization = !conservativeRasterization;
+	if (key == 'o')
+		mipmapLevel--;
+	if (key == 'p')
+		mipmapLevel++;
+
+	if (mipmapLevel < 0)
+		mipmapLevel = 0;
+	if (mipmapLevel > 10)
+		mipmapLevel = 10;
 }
 
 void keyIsDown(Keys key)
@@ -411,14 +349,9 @@ void mouseDragged(int x, int y)
 {
 	if (leftMouseDown)
 	{
-		rotation -= (float) (x - previousX) * .001f;
-
-		previousX = x;
-		previousY = y;
 	}
 	else if (rightMouseDown)
 	{
-		previousY = y;
 	}
 }
 
@@ -433,7 +366,6 @@ void initializeProgram(std::string resourcesDirectory)
 	//Setting the background color.
 	glClearColor(0, 0, 0, 1);
 
-	loadShaders(resourcesDirectory);
 	setupGL(resourcesDirectory);
 }
 
@@ -458,44 +390,14 @@ void update()
 
 	_modelViewProjectionMatrixNew = projectionMatrixNew * modelViewMatrixNew;
 
-	//Matrix4 rotate = projectionMatrixNew * Matrix4::Translate(0, -1.75, 0);
-
-
-
-
-	//Matrix4 projection = Matrix4::Perspective(60.0f,(float) windowWidth /
-	//	(float)windowHeight, 0.001f, 10.0f);
-
-	//Matrix4 modelview = Matrix4::Translate(0.0f, 0.0f, -2.0f)//-cameraZoom)
-	//	* Matrix4::Scale(1.0f / 128.0f, 1.0f / 128.0f, 1.0f / 128.0f)
-	//	* Matrix4::Translate(-128.0f * 0.5f, -128.0f * 0.5f, -128.0f * 0.5f);
-
-	//_modelViewProjectionMatrixNew = projection;
-
-	//emitter->update(1.0f / 30.0f, rotate);
-	//glBindBuffer(GL_ARRAY_BUFFER, particleVertexBuffer);
-	//glBufferData(GL_ARRAY_BUFFER, emitter->getDataCount() * sizeof(float),
-	//	emitter->getData(), GL_DYNAMIC_DRAW);
-	//particleVertexCount = emitter->getNumberOfActiveParticles();
+	rotationX += .5;
+	rotationY += .5;
 }
 
 //This is the "heart" of the program, as it is called every 1/60th of a second 
 //to update the program state.
 void timer(int milliseconds)
 {
-	glBindTexture(GL_TEXTURE_3D, voxelTexture);
-	GLubyte *imgPointer = (GLubyte *)malloc(128 * 128 * 128 * 4);
-	for (int i = 0; i < 128 * 128 * 128 * 4; i++)
-		imgPointer[i] = 0;
-
-	glGetTexImage(GL_TEXTURE_3D, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgPointer);
-	for (int i = 0; i < 128*128*128; i++)
-	{
-		if (imgPointer[i] > 0)
-			std::cout << "Voxel at (" << i << ") is " << (int) imgPointer[i] << ".\n";
-	}
-	free(imgPointer);
-
 	GLenum err;
 	while ((err = glGetError()) != GL_NO_ERROR) {
 		std::cout << "GL Error: " << err << "\n";
@@ -504,10 +406,7 @@ void timer(int milliseconds)
 	//Updating.
 	update();
 
-	//Clearing and voxelizing.
-	//clearVoxels();
-	voxelizeScene();
-
+	//Drawing a new frame and resetting the timer.
 	glutPostRedisplay();
 	glutTimerFunc(refreshRateInMillis, timer, refreshRateInMillis);
 }

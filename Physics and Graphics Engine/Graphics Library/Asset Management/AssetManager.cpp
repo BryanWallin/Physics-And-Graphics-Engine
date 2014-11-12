@@ -868,15 +868,15 @@ bool AssetManager::loadObj(std::string filePath)
     vertexData->finalizeVertexData();
     
 	//Getting the file name from the file path.
-	std::string fileName = filePath.substr(filePath.find_last_of('\\'));
+	std::string fileName = filePath.substr(filePath.find_last_of('\\') + 1);
 	std::string meshName = fileName.substr(0, fileName.find_last_of('.'));
 
 	StaticMesh *staticMesh = new StaticMesh(meshName);
     staticMesh->setVertexData(vertexData);
     
     //Adding the mesh to the asset manager.
-    m_StaticMeshes.insert(std::make_pair(fileName, staticMesh));
-    std::cout << "Mesh Name: " << fileName << "\n";
+	m_StaticMeshes.insert(std::make_pair(meshName, staticMesh));
+	std::cout << "Mesh Name: " << meshName << "\n";
     
     return true;
 }
