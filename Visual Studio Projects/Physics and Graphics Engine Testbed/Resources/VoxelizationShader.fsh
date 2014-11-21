@@ -17,6 +17,7 @@ uniform vec3 MaterialKd;
 uniform bool colorCode;
 uniform float pixelDiagonal;
 uniform bool conservativeRasterization;
+uniform vec4 diffuseColor;
 
 vec3 PhongModel()
 {
@@ -43,6 +44,7 @@ void main()
     {
         vec3 fragmentColor = PhongModel();
         fragmentColor *= gs_Color;
+        fragmentColor = diffuseColor.xyz;
         vec3 coords = gs_SwizzleMatrixInv * vec3(gl_FragCoord.xy, gl_FragCoord.z * viewportSize.x);
         imageStore(volumeTexture, ivec3(coords), vec4(fragmentColor, 0.5));
     }

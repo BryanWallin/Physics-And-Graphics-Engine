@@ -54,6 +54,8 @@ VertexData::VertexData(VertexDataFormat dataFormat, int vertexCount)
     //Setting the data type lengths.
     m_VertexDataTypeLengths[Position] = 3;
     m_VertexDataTypeLengths[Normal] = 3;
+	m_VertexDataTypeLengths[Tangent] = 3;
+	m_VertexDataTypeLengths[Bitangent] = 3;
     m_VertexDataTypeLengths[TextureCoordinate] = 2;
     m_VertexDataTypeLengths[Color] = 4;
     m_VertexDataTypeLengths[Size] = 1;
@@ -183,6 +185,24 @@ bool VertexData::attachToProgram(OpenGLProgram *program)
                               BUFFER_OFFSET(m_VertexDataTypeOffsets[Normal]
                                             * 4));
     }
+	if (!(m_VertexDataTypeData[Tangent] == NULL))
+	{
+		glEnableVertexAttribArray(program->getAttributeID("tangent"));
+		glVertexAttribPointer(program->getAttributeID("tangent"),
+			m_VertexDataTypeLengths[Tangent], GL_FLOAT,
+			GL_FALSE, m_Stride * sizeof(float),
+			BUFFER_OFFSET(m_VertexDataTypeOffsets[Tangent]
+			* 4));
+	}
+	if (!(m_VertexDataTypeData[Bitangent] == NULL))
+	{
+		glEnableVertexAttribArray(program->getAttributeID("bitangent"));
+		glVertexAttribPointer(program->getAttributeID("bitangent"),
+			m_VertexDataTypeLengths[Bitangent], GL_FLOAT,
+			GL_FALSE, m_Stride * sizeof(float),
+			BUFFER_OFFSET(m_VertexDataTypeOffsets[Bitangent]
+			* 4));
+	}
     if(!(m_VertexDataTypeData[TextureCoordinate] == NULL))
     {
         glEnableVertexAttribArray(program->getAttributeID("textureCoordinate"));
@@ -293,6 +313,24 @@ bool VertexData::buildDataArray()
         insertData(Normal, m_VertexDataTypeData[Normal],
                    (float) m_VertexCount * m_VertexDataTypeLengths[Normal]);
     }
+	if (!(m_VertexDataTypeData[Tangent] == NULL))
+	{
+		m_VertexDataTypeOffsets[Tangent] = currentOffset;
+		currentOffset += m_VertexDataTypeLengths[Tangent];
+
+		//Inserting the data into the data array.
+		insertData(Tangent, m_VertexDataTypeData[Tangent],
+			(float)m_VertexCount * m_VertexDataTypeLengths[Tangent]);
+	}
+	if (!(m_VertexDataTypeData[Bitangent] == NULL))
+	{
+		m_VertexDataTypeOffsets[Bitangent] = currentOffset;
+		currentOffset += m_VertexDataTypeLengths[Bitangent];
+
+		//Inserting the data into the data array.
+		insertData(Bitangent, m_VertexDataTypeData[Bitangent],
+			(float)m_VertexCount * m_VertexDataTypeLengths[Bitangent]);
+	}
     if(!(m_VertexDataTypeData[TextureCoordinate] == NULL))
     {
         m_VertexDataTypeOffsets[TextureCoordinate] = currentOffset;
@@ -352,25 +390,6 @@ void VertexData::insertData(VertexDataType type, float *data, float dataCount)
     //Getting the length and offset for the specified data type.
     int length = m_VertexDataTypeLengths[type];
     int offset = m_VertexDataTypeOffsets[type];
-    
-    if(type == Position)
-        std::cout << "Position Length: ";
-    else if(type == Normal)
-        std::cout << "Normal Length: ";
-    else if(type == TextureCoordinate)
-        std::cout << "TextureCoordinate Length: ";
-    else if(type == Color)
-        std::cout << "Color Length: ";
-    else if(type == Size)
-        std::cout << "Size Length: ";
-    else if(type == BoneIndices)
-        std::cout << "BoneIndices Length: ";
-    else if(type == BoneWeights)
-        std::cout << "BoneWeights Length: ";
-    
-    std::cout << length << "\tOffset: " << offset << "\n";
-    std::cout << "Stride: " << m_Stride << "\n";
-    
     int dataIndex = 0;
     
     //Copying the data into the array.

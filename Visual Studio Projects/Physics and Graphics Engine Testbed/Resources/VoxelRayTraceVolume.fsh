@@ -79,7 +79,7 @@ void main()
 		{
 			// Sample 3D texture at current position.
 			vec3 texCoords = voxelPos / VolumeDimensions;
-			vec4 color = pow(3, MipmapLevel) * textureLod(VolumeTexture, texCoords, MipmapLevel);
+			vec4 color = pow(4, MipmapLevel) * textureLod(VolumeTexture, texCoords, MipmapLevel);
 
 			// Exit loop if a single sample has an alpha value greater than 0.
 			if (color.a > 0.0)

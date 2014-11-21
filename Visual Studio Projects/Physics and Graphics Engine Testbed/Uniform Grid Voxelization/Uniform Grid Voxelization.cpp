@@ -52,12 +52,16 @@ float refreshRateInMillis = 1;
 float fov = 90;
 float rotationX = 0.0f;
 float rotationY = 0.0f;
+float cameraX = 0.0f, cameraY = 0.0f, cameraZ = 2.0f;
 int mipmapLevel = 0;
+float distanceReduce = 50;
+float coneRatio = 0.75;
 
 bool conservativeRasterization = false;
 
-OpenGLProgram *diffuseProgram, *voxelizationProgram, *voxelRenderProgram;
-Material *diffuseMaterial, *voxelMaterial;
+OpenGLProgram *diffuseProgram, *voxelizationProgram, *voxelRenderProgram, 
+*ambientOcclusionProgram;
+Material *diffuseMaterial, *voxelMaterial, *ambientMaterial;
 Camera *camera;
 AssetManager *manager;
 
@@ -83,11 +87,19 @@ void setupGL(std::string resourcesDirectory)
 	diffuseProgram = new OpenGLProgram(resourcesDirectory + "DefaultShader.vsh",
 		resourcesDirectory + "DefaultShader.fsh");
 
+	//Ambient Occlusion program setup.
+	ambientOcclusionProgram = new OpenGLProgram(
+		resourcesDirectory + "AmbientOcclusionShader.vsh",
+		resourcesDirectory + "AmbientOcclusionShader.fsh");
+
 	diffuseMaterial = new Material();
 	diffuseMaterial->setProgram(diffuseProgram);
 
 	voxelMaterial = new Material();
 	voxelMaterial->setProgram(voxelizationProgram);
+
+	ambientMaterial = new Material();
+	ambientMaterial->setProgram(ambientOcclusionProgram);
 
 	//StaticMesh Creation.
 	manager = new AssetManager();
@@ -101,18 +113,25 @@ void setupGL(std::string resourcesDirectory)
 
 	floorMesh = manager->getStaticMesh("CornellBox_Floor");
 	floorMesh->setMaterial(voxelMaterial);
+	floorMesh->setMaterial(ambientMaterial);
 	leftWallMesh = manager->getStaticMesh("CornellBox_LeftWall");
 	leftWallMesh->setMaterial(voxelMaterial);
+	leftWallMesh->setMaterial(ambientMaterial);
 	backWallMesh = manager->getStaticMesh("CornellBox_BackWall");
 	backWallMesh->setMaterial(voxelMaterial);
+	backWallMesh->setMaterial(ambientMaterial);
 	rightWallMesh = manager->getStaticMesh("CornellBox_RightWall");
 	rightWallMesh->setMaterial(voxelMaterial);
+	rightWallMesh->setMaterial(ambientMaterial);
 	ceilingMesh = manager->getStaticMesh("CornellBox_Ceiling");
-	ceilingMesh->setMaterial(voxelMaterial);
+	rightWallMesh->setMaterial(voxelMaterial);
+	rightWallMesh->setMaterial(ambientMaterial);
 	backBallMesh = manager->getStaticMesh("CornellBox_BackBall");
 	backBallMesh->setMaterial(voxelMaterial);
+	backBallMesh->setMaterial(ambientMaterial);
 	frontBallMesh = manager->getStaticMesh("CornellBox_FrontBall");
 	frontBallMesh->setMaterial(voxelMaterial);
+	frontBallMesh->setMaterial(ambientMaterial);
 
 	//Camera Creation.
 	camera = new Camera("MainCamera");
@@ -123,7 +142,7 @@ void setupGL(std::string resourcesDirectory)
 	glBindTexture(GL_TEXTURE_3D, voxelTexture);
 	glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, 128, 128, 128, 0, GL_RGBA, 
 		GL_UNSIGNED_BYTE, 0);
-	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	//glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -205,23 +224,40 @@ void voxelizeScene()
 		"MaterialKd"), 1.0f, 1.0f, 1.0f);
 	glBindImageTexture(0, voxelTexture, 0, GL_TRUE, 0, GL_READ_WRITE, GL_RGBA8);
 
-	//Drawing items.
+	// Render items.
+	glUniform4f(glGetUniformLocation(voxelizationProgram->getProgramID(),
+		"diffuseColor"), 0.0f, 0.0f, 0.0f, 1);
 	glBindVertexArray(floorMesh->getVertexData()->getVertexDataPointer());
 	glDrawArrays(GL_TRIANGLES, 0, floorMesh->getVertexData()->getVertexCount());
-	glBindVertexArray(leftWallMesh->getVertexData()->getVertexDataPointer());
-	glDrawArrays(GL_TRIANGLES, 0, leftWallMesh->getVertexData()->getVertexCount());
 	glBindVertexArray(backWallMesh->getVertexData()->getVertexDataPointer());
 	glDrawArrays(GL_TRIANGLES, 0, backWallMesh->getVertexData()->getVertexCount());
+
+	glUniform4f(glGetUniformLocation(voxelizationProgram->getProgramID(),
+		"diffuseColor"), 0.0f, 0.0f, 0.0f, 1);
+	glBindVertexArray(leftWallMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, leftWallMesh->getVertexData()->getVertexCount());
+
+	glUniform4f(glGetUniformLocation(voxelizationProgram->getProgramID(),
+		"diffuseColor"), 0.0f, 0.0f, 0.0f, 1);
 	glBindVertexArray(rightWallMesh->getVertexData()->getVertexDataPointer());
 	glDrawArrays(GL_TRIANGLES, 0, rightWallMesh->getVertexData()->getVertexCount());
+
+	glUniform4f(glGetUniformLocation(voxelizationProgram->getProgramID(),
+		"diffuseColor"), 0.0f, 0.0f, 0.0f, 1);
 	glBindVertexArray(ceilingMesh->getVertexData()->getVertexDataPointer());
 	glDrawArrays(GL_TRIANGLES, 0, ceilingMesh->getVertexData()->getVertexCount());
+
+	glUniform4f(glGetUniformLocation(voxelizationProgram->getProgramID(),
+		"diffuseColor"), 1.0f, 1.0f, 1.0f, 1);
 	glBindVertexArray(backBallMesh->getVertexData()->getVertexDataPointer());
 	glDrawArrays(GL_TRIANGLES, 0, backBallMesh->getVertexData()->getVertexCount());
+
+	glUniform4f(glGetUniformLocation(voxelizationProgram->getProgramID(),
+		"diffuseColor"), 0.0f, 0.0f, 0.0f, 1);
 	glBindVertexArray(frontBallMesh->getVertexData()->getVertexDataPointer());
 	glDrawArrays(GL_TRIANGLES, 0, frontBallMesh->getVertexData()->getVertexCount());
 
-
+	glBindImageTexture(0, 0, 0, GL_TRUE, 0, GL_READ_WRITE, GL_RGBA8);
 	glGenerateMipmap(GL_TEXTURE_3D);
 	GLenum err;
 	while ((err = glGetError()) != GL_NO_ERROR) {
@@ -285,15 +321,82 @@ void renderVoxels()
 	glUseProgram(0);
 }
 
+void renderAmbientOcclusion()
+{
+	// Setup and clear viewport.
+	glViewport(0, 0, windowWidth, windowHeight);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Bind texture.
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_3D, voxelTexture);
+
+	glUseProgram(ambientOcclusionProgram->getProgramID());
+
+	Matrix4 worldEye = Matrix4::Perspective(60.0f, windowWidth /
+		(float)windowHeight, 0.001f, 10.0f) * 
+		Matrix4::Translate(-cameraX, -cameraY, -cameraZ);
+	Matrix4 modelWorld = Matrix4::Identity();
+
+	glUniformMatrix4fv(ambientOcclusionProgram->getUniformID("worldEyeMatrix"),
+		1, GL_FALSE, worldEye);
+	glUniformMatrix4fv(ambientOcclusionProgram->getUniformID("modelWorldMatrix"),
+		1, GL_FALSE, modelWorld);
+	glUniform1f(ambientOcclusionProgram->getUniformID("distanceReduce"),
+		distanceReduce);
+	glUniform1f(ambientOcclusionProgram->getUniformID("coneRatio"),
+		coneRatio);
+
+	// Render items.
+	glUniform4f(glGetUniformLocation(ambientOcclusionProgram->getProgramID(),
+		"diffuseColor"), 0.5f, 0.5f, 0.5f, 1);
+	glUniform4f(glGetUniformLocation(ambientOcclusionProgram->getProgramID(),
+		"emissiveColor"), 0.0f, 0.0f, 0.0f, 0);
+	glBindVertexArray(floorMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, floorMesh->getVertexData()->getVertexCount());
+	glBindVertexArray(backWallMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, backWallMesh->getVertexData()->getVertexCount());
+
+	glUniform4f(glGetUniformLocation(ambientOcclusionProgram->getProgramID(),
+		"diffuseColor"), 0.9f, 0.0f, 0.0f, 1);
+	glBindVertexArray(leftWallMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, leftWallMesh->getVertexData()->getVertexCount());
+
+	glUniform4f(glGetUniformLocation(ambientOcclusionProgram->getProgramID(),
+		"diffuseColor"), 0.0f, 0.9f, 0.0f, 1);
+	glBindVertexArray(rightWallMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, rightWallMesh->getVertexData()->getVertexCount());
+
+	glUniform4f(glGetUniformLocation(ambientOcclusionProgram->getProgramID(),
+		"diffuseColor"), 0.5f, 0.5f, 0.5f, 1);
+	glBindVertexArray(ceilingMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, ceilingMesh->getVertexData()->getVertexCount());
+
+	glUniform4f(glGetUniformLocation(ambientOcclusionProgram->getProgramID(),
+		"diffuseColor"), 1.0f, 1.0f, 1.0f, 1);
+	glUniform4f(glGetUniformLocation(ambientOcclusionProgram->getProgramID(),
+		"emissiveColor"), 1.0f, 1.0f, 1.0f, 1);
+	glBindVertexArray(backBallMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, backBallMesh->getVertexData()->getVertexCount());
+
+	glUniform4f(glGetUniformLocation(ambientOcclusionProgram->getProgramID(),
+		"emissiveColor"), 0.0f, 0.0f, 0.0f, 0);
+	glBindVertexArray(frontBallMesh->getVertexData()->getVertexDataPointer());
+	glDrawArrays(GL_TRIANGLES, 0, frontBallMesh->getVertexData()->getVertexCount());
+
+	// Undo state changes.
+	glBindTexture(GL_TEXTURE_3D, 0);
+	glUseProgram(0);
+}
+
 //This method displays the objects sent to the graphics card.
 void display()
 {
-	//Clearing the voxels and generating the new voxel structure.
-	clearVoxels();
-	voxelizeScene();
-
 	//Rendering the voxels.
-	renderVoxels();
+	//renderVoxels();
+
+	//Rendering ambient occlusion.
+	renderAmbientOcclusion();
 
 	//Swapping the buffers now that the drawing is complete.
 	glutSwapBuffers();
@@ -304,12 +407,38 @@ void keysDown(unsigned char key, int x, int y)
 {
 	if (key == 'q')
 		glutLeaveMainLoop();
-	if (key == 'c')
+	if (key == 'r')
 		conservativeRasterization = !conservativeRasterization;
 	if (key == 'o')
 		mipmapLevel--;
 	if (key == 'p')
 		mipmapLevel++;
+	if (key == 'a')
+		cameraX -= 0.1;
+	if (key == 'd')
+		cameraX += 0.1;
+	if (key == 's')
+		cameraZ -= 0.1;
+	if (key == 'w')
+		cameraZ += 0.1;
+	if (key == 'e')
+		cameraY += 0.1;
+	if (key == 'c')
+		cameraY -= 0.1;
+	if (key == 'n')
+		distanceReduce--;
+	if (key == 'm')
+		distanceReduce++;
+	if (key == 'j')
+		coneRatio -= 0.01;
+	if (key == 'k')
+		coneRatio += 0.01;
+
+	if (coneRatio < 0.01)
+		coneRatio = 0.01;
+
+	if (distanceReduce < 0)
+		distanceReduce = 0;
 
 	if (mipmapLevel < 0)
 		mipmapLevel = 0;
@@ -448,6 +577,10 @@ int main(int argc, char **argv)
 	glutMotionFunc(mouseDragged);
 	glutReshapeFunc(reshape);
 	glutTimerFunc(refreshRateInMillis, timer, refreshRateInMillis);
+
+	//Clearing the voxels and generating the new voxel structure.
+	clearVoxels();
+	voxelizeScene();
 
 	//Starting the GLUT main loop.
 	glutMainLoop();

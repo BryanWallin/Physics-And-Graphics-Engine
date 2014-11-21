@@ -27,8 +27,8 @@ namespace GraphicsEngine
 //============================================================================//
 
 //Declaring an enumeration for the vertex data type.
-enum VertexDataType {Position, Normal, TextureCoordinate, Color, Size,
-    BoneIndices, BoneWeights, NumberOfDataTypes};
+enum VertexDataType {Position, Normal, Tangent, Bitangent, TextureCoordinate, 
+	Color, Size, BoneIndices, BoneWeights, NumberOfDataTypes};
 
 //Declaring an enumeration for the vertex data format.
 enum VertexDataFormat {Points = GL_POINTS, Triangles = GL_TRIANGLES,
